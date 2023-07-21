@@ -548,15 +548,15 @@
  *   998 : Dummy Table that ALWAYS reads 25°C or the temperature defined below.
  *   999 : Dummy Table that ALWAYS reads 100°C or the temperature defined below.
  */
-#define TEMP_SENSOR_0 100 // <-- changed
-#define TEMP_SENSOR_1 0
+#define TEMP_SENSOR_0 101 // <-- changed
+#define TEMP_SENSOR_1 101 // <-- changed
 #define TEMP_SENSOR_2 0
 #define TEMP_SENSOR_3 0
 #define TEMP_SENSOR_4 0
 #define TEMP_SENSOR_5 0
 #define TEMP_SENSOR_6 0
 #define TEMP_SENSOR_7 0
-#define TEMP_SENSOR_BED 1
+#define TEMP_SENSOR_BED 0 // <-- changed
 #define TEMP_SENSOR_PROBE 0
 #define TEMP_SENSOR_CHAMBER 0
 #define TEMP_SENSOR_COOLER 0
@@ -870,10 +870,10 @@
  * details can be tuned in Configuration_adv.h
  */
 
-//#define THERMAL_PROTECTION_HOTENDS // <-- changed: Enable thermal protection for all extruders
-#define THERMAL_PROTECTION_BED     // Enable thermal protection for the heated bed
-#define THERMAL_PROTECTION_CHAMBER // Enable thermal protection for the heated chamber
-#define THERMAL_PROTECTION_COOLER  // Enable thermal protection for the laser cooling
+#define THERMAL_PROTECTION_HOTENDS // Enable thermal protection for all extruders
+//#define THERMAL_PROTECTION_BED     // <-- changed: Enable thermal protection for the heated bed
+//#define THERMAL_PROTECTION_CHAMBER // <-- changed: Enable thermal protection for the heated chamber
+//#define THERMAL_PROTECTION_COOLER  // <-- changed: Enable thermal protection for the laser cooling
 
 //===========================================================================
 //============================= Mechanical Settings =========================
@@ -1547,7 +1547,7 @@
  *     |    [-]    |
  *     O-- FRONT --+
  */
-#define NOZZLE_TO_PROBE_OFFSET {0,43.3,-1.25} // <-- changed
+#define NOZZLE_TO_PROBE_OFFSET {0,37.2,-1.25} // <-- changed
 
 // Enable and set to use a specific tool for probing. Disable to allow any tool.
 #define PROBING_TOOL 0
@@ -1630,7 +1630,7 @@
  * Example: `M851 Z-5` with a CLEARANCE of 4  =>  9mm from bed to nozzle.
  *     But: `M851 Z+1` with a CLEARANCE of 2  =>  2mm from bed to nozzle.
  */
-#define Z_CLEARANCE_DEPLOY_PROBE   15 // <-- changed: Z Clearance for Deploy/Stow
+#define Z_CLEARANCE_DEPLOY_PROBE   5 // <-- changed: Z Clearance for Deploy/Stow
 #define Z_CLEARANCE_BETWEEN_PROBES  5 // Z Clearance between probe points
 #define Z_CLEARANCE_MULTI_PROBE     5 // Z Clearance between multiple probes
 //#define Z_AFTER_PROBING           5 // Z position after probing is done
@@ -1734,7 +1734,7 @@
 
 // @section homing
 
-//#define NO_MOTION_BEFORE_HOMING // Inhibit movement until all axes have been homed. Also enable HOME_AFTER_DEACTIVATE for extra safety.
+#define NO_MOTION_BEFORE_HOMING // <-- changed: Inhibit movement until all axes have been homed. Also enable HOME_AFTER_DEACTIVATE for extra safety.
 //#define HOME_AFTER_DEACTIVATE   // Require rehoming after steppers are deactivated. Also enable NO_MOTION_BEFORE_HOMING for extra safety.
 
 /**
@@ -2102,11 +2102,11 @@
 
   //#define MESH_EDIT_GFX_OVERLAY   // Display a graphics overlay while editing the mesh
 
-  #define MESH_INSET 0              // <-- changed: Set Mesh bounds as an inset region of the bed
+  #define MESH_INSET 1              // Set Mesh bounds as an inset region of the bed
   #define GRID_MAX_POINTS_X 5      // <-- changed: Don't use more than 15 points per axis, implementation limited.
   #define GRID_MAX_POINTS_Y 5 // <-- changed
 
-  //#define UBL_HILBERT_CURVE       // Use Hilbert distribution for less travel when probing multiple points
+  #define UBL_HILBERT_CURVE       // <-- changed: Use Hilbert distribution for less travel when probing multiple points
 
   //#define UBL_TILT_ON_MESH_POINTS         // Use nearest mesh points with G29 J for better Z reference
   //#define UBL_TILT_ON_MESH_POINTS_3POINT  // Use nearest mesh points with G29 J0 (3-point)
@@ -2144,7 +2144,7 @@
   //=================================== Mesh ==================================
   //===========================================================================
 
-  #define MESH_INSET 0          // <-- changed: Set Mesh bounds as an inset region of the bed
+  #define MESH_INSET 10          // Set Mesh bounds as an inset region of the bed
   #define GRID_MAX_POINTS_X 5    // <-- changed: Don't use more than 7 points per axis, implementation limited.
   #define GRID_MAX_POINTS_Y 5 // <-- changed
 
@@ -3404,7 +3404,7 @@
 // Use software PWM to drive the fan, as for the heaters. This uses a very low frequency
 // which is not as annoying as with the hardware PWM. On the other hand, if this frequency
 // is too low, you should also increment SOFT_PWM_SCALE.
-//#define FAN_SOFT_PWM
+#define FAN_SOFT_PWM // <-- changed
 
 // Incrementing this by 1 will double the software PWM frequency,
 // affecting heaters, and the fan if FAN_SOFT_PWM is enabled.
@@ -3566,7 +3566,7 @@
 //#define MANUAL_BED_LEVELING_COMMANDS
 //#define AO_EXP1_DEPRECATED_PINMAP
 #define DISABLE_DUE_SD_MMC // <-- changed
-//#define ARCHIM2_SPI_FLASH_EEPROM_BACKUP_SIZE
+#define ARCHIM2_SPI_FLASH_EEPROM_BACKUP_SIZE 1000 // <-- changed
 //#define END_G29_ON_BACK_LEFT_CORNER
 //#define G26_IN_START_GCODE_WORKAROUND
 #define USB_DEVICE_VENDOR_ID 0x27b1 // <-- changed
@@ -3593,7 +3593,7 @@
 //#define Z2_PRESENCE_CHECK
 //#define USE_ELECTROMAGNETIC_BRAKE
 //#define ELECTROMAGNETIC_BRAKE_PIN
-//#define UBL_HILBERT_CURVE
+#define UBL_HILBERT_CURVE // <-- changed
 //#define M997_ARCHIM_BOOTLOADER
 //#define START_PRINT_TIMER_ON_G26
 //#define MOVE_TO_Z_MIN_COMMANDS

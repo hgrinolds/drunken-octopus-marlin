@@ -573,13 +573,13 @@
  */
 #define USE_CONTROLLER_FAN // <-- changed
 #if ENABLED(USE_CONTROLLER_FAN)
-  #define CONTROLLER_FAN_PIN FAN1_PIN           // <-- changed: Set a custom pin for the controller fan
+  #define CONTROLLER_FAN_PIN 5           // <-- changed: Set a custom pin for the controller fan
   //#define CONTROLLER_FAN2_PIN -1          // Set a custom pin for second controller fan
   //#define CONTROLLER_FAN_USE_Z_ONLY       // With this option only the Z axis is considered
-  //#define CONTROLLER_FAN_IGNORE_Z         // Ignore Z stepper. Useful when stepper timeout is disabled.
+  #define CONTROLLER_FAN_IGNORE_Z         // <-- changed: Ignore Z stepper. Useful when stepper timeout is disabled.
   #define CONTROLLERFAN_SPEED_MIN         0 // (0-255) Minimum speed. (If set below this value the fan is turned off.)
   #define CONTROLLERFAN_SPEED_ACTIVE    255 // (0-255) Active speed, used when any motor is enabled
-  #define CONTROLLERFAN_SPEED_IDLE        0 // (0-255) Idle speed, used when motors are disabled
+  #define CONTROLLERFAN_SPEED_IDLE        48 // <-- changed: (0-255) Idle speed, used when motors are disabled
   #define CONTROLLERFAN_IDLE_TIME        60 // (seconds) Extra time to keep the fan running after disabling motors
 
   // Use TEMP_SENSOR_BOARD as a trigger for enabling the controller fan
@@ -588,7 +588,7 @@
   // Use TEMP_SENSOR_SOC as a trigger for enabling the controller fan
   //#define CONTROLLER_FAN_MIN_SOC_TEMP 40  // (°C) Turn on the fan if the SoC reaches this temperature
 
-  //#define CONTROLLER_FAN_EDITABLE         // Enable M710 configurable settings
+  #define CONTROLLER_FAN_EDITABLE         // <-- changed: Enable M710 configurable settings
   #if ENABLED(CONTROLLER_FAN_EDITABLE)
     #define CONTROLLER_FAN_MENU             // Enable the Controller Fan submenu
   #endif
@@ -1216,7 +1216,7 @@
 #define DEFAULT_STEPPER_TIMEOUT_SEC 120
 #define DISABLE_IDLE_X
 #define DISABLE_IDLE_Y
-#define DISABLE_IDLE_Z    // Disable if the nozzle could fall onto your printed part!
+//#define DISABLE_IDLE_Z    // <-- changed: Disable if the nozzle could fall onto your printed part!
 //#define DISABLE_IDLE_I
 //#define DISABLE_IDLE_J
 //#define DISABLE_IDLE_K
@@ -2089,8 +2089,8 @@
   #define TOUCH_UI_800x480 // <-- changed
 
   // Mappings for boards with a standard RepRapDiscount Display connector
-  #define AO_EXP1_PINMAP      // <-- changed: LulzBot CLCD UI EXP1 mapping
-  //#define AO_EXP2_PINMAP      // LulzBot CLCD UI EXP2 mapping
+  //#define AO_EXP1_PINMAP      // LulzBot CLCD UI EXP1 mapping
+  #define AO_EXP2_PINMAP      // <-- changed: LulzBot CLCD UI EXP2 mapping
   //#define CR10_TFT_PINMAP     // Rudolph Riedel's CR10 pin mapping
   //#define S6_TFT_PINMAP       // FYSETC S6 pin mapping
   //#define F6_TFT_PINMAP       // FYSETC F6 pin mapping
