@@ -1984,8 +1984,8 @@
  */
 //#define AUTO_BED_LEVELING_3POINT
 //#define AUTO_BED_LEVELING_LINEAR
-//#define AUTO_BED_LEVELING_BILINEAR
-#define AUTO_BED_LEVELING_UBL // <-- changed
+#define AUTO_BED_LEVELING_BILINEAR // <-- changed
+//#define AUTO_BED_LEVELING_UBL
 //#define MESH_BED_LEVELING
 
 /**
@@ -2086,7 +2086,7 @@
     // Subdivision of the grid by Catmull-Rom method.
     // Synthesizes intermediate points to produce a more detailed mesh.
     //
-    //#define ABL_BILINEAR_SUBDIVISION
+    #define ABL_BILINEAR_SUBDIVISION // <-- changed
     #if ENABLED(ABL_BILINEAR_SUBDIVISION)
       // Number of subdivisions between probe points
       #define BILINEAR_SUBDIVISIONS 3
@@ -2106,7 +2106,7 @@
   #define GRID_MAX_POINTS_X 5      // <-- changed: Don't use more than 15 points per axis, implementation limited.
   #define GRID_MAX_POINTS_Y 5 // <-- changed
 
-  #define UBL_HILBERT_CURVE       // <-- changed: Use Hilbert distribution for less travel when probing multiple points
+  //#define UBL_HILBERT_CURVE       // Use Hilbert distribution for less travel when probing multiple points
 
   //#define UBL_TILT_ON_MESH_POINTS         // Use nearest mesh points with G29 J for better Z reference
   //#define UBL_TILT_ON_MESH_POINTS_3POINT  // Use nearest mesh points with G29 J0 (3-point)
@@ -3563,7 +3563,7 @@
 //#define TOOLHEAD_TYPE
 //#define WIPE_SEQUENCE_COMMANDS
 //#define AXIS_LEVELING_COMMANDS
-#define BED_LEVELING_COMMANDS "G28\nG29 P1\nG29 P3\nG29 S1" // <-- changed
+#define BED_LEVELING_COMMANDS "G28\nG29" // <-- changed
 //#define MANUAL_BED_LEVELING_COMMANDS
 //#define AO_EXP1_DEPRECATED_PINMAP
 #define DISABLE_DUE_SD_MMC // <-- changed
@@ -3594,7 +3594,7 @@
 //#define Z2_PRESENCE_CHECK
 //#define USE_ELECTROMAGNETIC_BRAKE
 //#define ELECTROMAGNETIC_BRAKE_PIN
-#define UBL_HILBERT_CURVE // <-- changed
+//#define UBL_HILBERT_CURVE
 //#define M997_ARCHIM_BOOTLOADER
 //#define START_PRINT_TIMER_ON_G26
 //#define MOVE_TO_Z_MIN_COMMANDS
