@@ -2383,7 +2383,7 @@
 
 #if ENABLED(NOZZLE_PARK_FEATURE)
   // Specify a park position as { X, Y, Z_raise }
-  #define NOZZLE_PARK_POINT {0,150,20} // <-- changed
+  #define NOZZLE_PARK_POINT {70,5,20} // <-- changed
   #define NOZZLE_PARK_MOVE          0   // Park motion: 0 = XY Move, 1 = X Only, 2 = Y Only, 3 = X before Y, 4 = Y before X
   #define NOZZLE_PARK_Z_RAISE_MIN   2   // (mm) Always raise Z by at least this distance
   #define NOZZLE_PARK_XY_FEEDRATE 100   // (mm/s) X and Y axes feedrate (also used for delta Z axis)
@@ -3563,7 +3563,7 @@
 //#define TOOLHEAD_TYPE
 //#define WIPE_SEQUENCE_COMMANDS
 //#define AXIS_LEVELING_COMMANDS
-#define BED_LEVELING_COMMANDS "G28\nG29" // <-- changed
+#define BED_LEVELING_COMMANDS "G28\nG29\nG27 P2" // <-- changed
 //#define MANUAL_BED_LEVELING_COMMANDS
 //#define AO_EXP1_DEPRECATED_PINMAP
 #define DISABLE_DUE_SD_MMC // <-- changed
@@ -3577,11 +3577,13 @@
 //#define TOUCH_UI_SYNDAVER_LEVELUP
 //#define TOUCH_UI_NO_BOOTSCREEN
 //#define TOUCH_UI_ROYAL_THEME
-#define TOUCH_UI_VERSION "Version: BETA (" __DATE__  ")" // <-- changed
+#define TOUCH_UI_VERSION "Version: 1.0 (" __DATE__  ")" // <-- changed
 //#define TOUCH_UI_FILAMENT_RUNOUT_WORKAROUNDS
 //#define CURA_LE_RUNOUT_HANDLING_WORKAROUND
 //#define FIL_RUNOUT_PIN
 //#define SERVO0_PIN
+#define FAN0_PIN -1 // <-- changed
+#define FAN1_PIN -1 // <-- changed
 //#define ACTION_ON_FILAMENT_RUNOUT
 //#define SWAP_EXTRUDER_FANS
 //#define SWAP_E0_AND_E1
@@ -3609,7 +3611,7 @@
 #define TOUCH_UI_COCOA_THEME // <-- changed
 #define TOUCH_UI_LCD_TEMP_SCALING 10 // <-- changed
 #define TOUCH_UI_LCD_TEMP_PRECISION 1 // <-- changed
-#define COCOA_PRESS_PREHEAT_SECONDS 900 // <-- changed
+#define COCOA_PRESS_PREHEAT_SECONDS 1200 // <-- changed
 #define COCOA_PRESS_PREHEAT_DARK_CHOCOLATE_SCRIPT "M104 S331 T0\nM104 S330 T1" // <-- changed
 #define COCOA_PRESS_PREHEAT_MILK_CHOCOLATE_SCRIPT "M104 S338 T0\nM104 S337 T1" // <-- changed
 #define COCOA_PRESS_PREHEAT_WHITE_CHOCOLATE_SCRIPT "M104 S328 T0\nM104 S326 T1" // <-- changed
