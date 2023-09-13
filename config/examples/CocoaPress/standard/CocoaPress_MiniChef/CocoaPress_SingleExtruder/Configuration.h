@@ -3563,7 +3563,7 @@
 //#define TOOLHEAD_TYPE
 //#define WIPE_SEQUENCE_COMMANDS
 //#define AXIS_LEVELING_COMMANDS
-#define BED_LEVELING_COMMANDS "G28\nG29\nG27 P2" // <-- changed
+#define BED_LEVELING_COMMANDS "M117 Starting bed probe\nG28\nG29\nG27 P2\nM500" // <-- changed
 //#define MANUAL_BED_LEVELING_COMMANDS
 //#define AO_EXP1_DEPRECATED_PINMAP
 #define DISABLE_DUE_SD_MMC // <-- changed
