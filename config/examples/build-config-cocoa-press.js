@@ -259,7 +259,7 @@ function make_config(PRINTER, TOOLHEAD) {
         MARLIN["GRID_MAX_POINTS_Y"]                      = 5
         MARLIN["PROBING_MARGIN"]                         = 0
         MARLIN["Z_CLEARANCE_DEPLOY_PROBE"]               = 5
-        MARLIN["BED_LEVELING_COMMANDS"]                  = C_STRING("G28\nG29\nG27 P2\n")
+        MARLIN["BED_LEVELING_COMMANDS"]                  = C_STRING("M117 Starting bed probe\nG28\nG29\nG27 P2\nM500\n")
         MARLIN["G26_MESH_VALIDATION"]                    = false
     }
 

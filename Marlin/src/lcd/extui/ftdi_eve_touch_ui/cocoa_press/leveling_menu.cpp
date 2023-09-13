@@ -81,7 +81,7 @@ void LevelingMenu::onRedraw(draw_mode_t what) {
 bool LevelingMenu::onTouchEnd(uint8_t tag) {
   switch (tag) {
     case 1: GOTO_PREVIOUS(); break;
-    case 2: SaveSettingsDialogBox::settingsChanged(); injectCommands(F(BED_LEVELING_COMMANDS)); break;
+    case 2: GOTO_SCREEN(StatusScreen); injectCommands(F(BED_LEVELING_COMMANDS)); break;
     case 3: BedMeshViewScreen::show(); break;
     case 4: SaveSettingsDialogBox::settingsChanged(); BedMeshEditScreen::show(); break;
     default: return false;
