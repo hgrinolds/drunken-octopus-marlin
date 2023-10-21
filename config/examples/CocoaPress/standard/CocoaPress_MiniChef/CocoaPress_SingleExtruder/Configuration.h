@@ -1710,8 +1710,8 @@
 // @section motion
 
 // Invert the stepper direction. Change (or reverse the motor connector) if an axis goes the wrong way.
-#define INVERT_X_DIR false
-#define INVERT_Y_DIR false // <-- changed
+#define INVERT_X_DIR true // <-- changed
+#define INVERT_Y_DIR true
 #define INVERT_Z_DIR false
 //#define INVERT_I_DIR false
 //#define INVERT_J_DIR false
@@ -3577,7 +3577,7 @@
 //#define TOUCH_UI_SYNDAVER_LEVELUP
 //#define TOUCH_UI_NO_BOOTSCREEN
 //#define TOUCH_UI_ROYAL_THEME
-#define TOUCH_UI_VERSION "Version: 1.0 (" __DATE__  ")" // <-- changed
+#define TOUCH_UI_VERSION "Version: 1.1 (" __DATE__  ")" // <-- changed
 //#define TOUCH_UI_FILAMENT_RUNOUT_WORKAROUNDS
 //#define CURA_LE_RUNOUT_HANDLING_WORKAROUND
 //#define FIL_RUNOUT_PIN
@@ -3613,5 +3613,5 @@
 #define TOUCH_UI_LCD_TEMP_PRECISION 1 // <-- changed
 #define COCOA_PRESS_PREHEAT_SECONDS 1200 // <-- changed
 #define COCOA_PRESS_PREHEAT_DARK_CHOCOLATE_SCRIPT "M104 S331 T0\nM104 S330 T1" // <-- changed
-#define COCOA_PRESS_PREHEAT_MILK_CHOCOLATE_SCRIPT "M104 S338 T0\nM104 S337 T1" // <-- changed
-#define COCOA_PRESS_PREHEAT_WHITE_CHOCOLATE_SCRIPT "M104 S328 T0\nM104 S326 T1" // <-- changed
+#define COCOA_PRESS_PREHEAT_MILK_CHOCOLATE_SCRIPT "M104 S340 T0\nM104 S339 T1" // <-- changed
+#define COCOA_PRESS_PREHEAT_WHITE_CHOCOLATE_SCRIPT "M104 S314 T0\nM104 S313 T1" // <-- changed
