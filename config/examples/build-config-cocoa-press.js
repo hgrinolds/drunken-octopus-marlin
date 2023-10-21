@@ -139,8 +139,10 @@ function make_config(PRINTER, TOOLHEAD) {
 /************************* HOMING & AXIS DIRECTIONS **************************/
 
     MARLIN["COREXY"]                                     = true
-    MARLIN["INVERT_X_DIR"]                               = 'false'
-    MARLIN["INVERT_Y_DIR"]                               = 'false'
+    // Invert X and Y for production printers due to wiring mishap
+    MARLIN["INVERT_X_DIR"]                               = 'true'
+    MARLIN["INVERT_Y_DIR"]                               = 'true'
+
     MARLIN["INVERT_Z_DIR"]                               = 'false'
     MARLIN["INVERT_E0_DIR"]                              = 'false'
     MARLIN["INVERT_E1_DIR"]                              = 'false'
@@ -212,11 +214,11 @@ function make_config(PRINTER, TOOLHEAD) {
     MARLIN["PREHEAT_1_LABEL"]                            = C_STRING("Cocoa")
     MARLIN["COCOA_PRESS_PREHEAT_SECONDS"]                = 20*60
     MARLIN["COCOA_PRESS_PREHEAT_DARK_CHOCOLATE_SCRIPT"]  = C_STRING("M104 S331 T0\nM104 S330 T1")
-    MARLIN["COCOA_PRESS_PREHEAT_MILK_CHOCOLATE_SCRIPT"]  = C_STRING("M104 S338 T0\nM104 S337 T1")
-    MARLIN["COCOA_PRESS_PREHEAT_WHITE_CHOCOLATE_SCRIPT"] = C_STRING("M104 S328 T0\nM104 S326 T1")
+    MARLIN["COCOA_PRESS_PREHEAT_MILK_CHOCOLATE_SCRIPT"]  = C_STRING("M104 S340 T0\nM104 S339 T1")
+    MARLIN["COCOA_PRESS_PREHEAT_WHITE_CHOCOLATE_SCRIPT"] = C_STRING("M104 S314 T0\nM104 S313 T1")
 
     MARLIN["SD_ABORT_NO_COOLDOWN"]                       = true
-    MARLIN["EVENT_GCODE_SD_ABORT"]                       = C_STRING( "G0 X0 Y0")
+    MARLIN["EVENT_GCODE_SD_ABORT"]                       = C_STRING( "G0 X5 Y5")
     MARLIN["SHOW_TEMP_ADC_VALUES"]                       = true
 
 /************************* COOLING FAN CONFIGURATION *************************/
@@ -344,7 +346,7 @@ function make_config(PRINTER, TOOLHEAD) {
     MARLIN["SD_SPI_SPEED"]                               = 'SPI_SIXTEENTH_SPEED'
 
     MARLIN["LCD_TIMEOUT_TO_STATUS"]                      = 600000 // Ten Minutes
-    MARLIN["TOUCH_UI_VERSION"]                           = C_STRING('Version: 1.0 (\" __DATE__  \")');
+    MARLIN["TOUCH_UI_VERSION"]                           = C_STRING('Version: 1.1 (\" __DATE__  \")');
     MARLIN["TOUCH_UI_FTDI_EVE"]                          = true
     MARLIN["TOUCH_UI_COCOA_THEME"]                       = true
     MARLIN["TOUCH_UI_COCOA_PRESS"]                       = true

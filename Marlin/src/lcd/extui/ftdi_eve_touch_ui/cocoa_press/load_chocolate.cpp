@@ -98,6 +98,11 @@ void LoadChocolateScreen::draw_arrows(draw_mode_t what) {
 void LoadChocolateScreen::onEntry() {
   mydata.repeating = false;
   mydata.repeat_tag = 0;
+  mydata.saved_feed_rate = getFeedrate_mm_s();
+}
+
+void LoadChocolateScreen::onExit() {
+  ExtUI::setFeedrate_mm_s(mydata.saved_feed_rate);
 }
 
 void LoadChocolateScreen::onRedraw(draw_mode_t what) {
