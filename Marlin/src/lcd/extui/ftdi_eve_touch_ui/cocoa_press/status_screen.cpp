@@ -345,7 +345,7 @@ bool StatusScreen::onTouchEnd(uint8_t tag) {
       #ifdef ACTION_ON_PAUSE
         else hostui.pause();
       #endif
-      GOTO_SCREEN(StatusScreen);
+      mydata.saved_feed_rate = getFeedrate_mm_s();
       break;
     case  8:
       sound.play(twinkle, PLAY_ASYNCHRONOUS);
@@ -354,7 +354,7 @@ bool StatusScreen::onTouchEnd(uint8_t tag) {
       #ifdef ACTION_ON_RESUME
         else hostui.resume();
       #endif
-      GOTO_SCREEN(StatusScreen);
+      ExtUI::setFeedrate_mm_s(mydata.saved_feed_rate);
       break;
     case  9:
       GOTO_SCREEN(ConfirmAbortPrintDialogBox);
