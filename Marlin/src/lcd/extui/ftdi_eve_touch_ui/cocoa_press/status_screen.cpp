@@ -348,13 +348,13 @@ bool StatusScreen::onTouchEnd(uint8_t tag) {
       mydata.saved_feed_rate = getFeedrate_mm_s();
       break;
     case  8:
+      ExtUI::setFeedrate_mm_s(mydata.saved_feed_rate);
       sound.play(twinkle, PLAY_ASYNCHRONOUS);
       if (ExtUI::isPrintingFromMedia())
         ExtUI::resumePrint();
       #ifdef ACTION_ON_RESUME
         else hostui.resume();
       #endif
-      ExtUI::setFeedrate_mm_s(mydata.saved_feed_rate);
       break;
     case  9:
       GOTO_SCREEN(ConfirmAbortPrintDialogBox);
