@@ -113,7 +113,6 @@ function make_config(PRINTER, TOOLHEAD) {
 
     MARLIN["MOTHERBOARD"]                                = 'BOARD_ARCHIM2'
     MARLIN["SERIAL_PORT"]                                = -1
-    MARLIN["SERIAL_PORT_2"]                              = 0
 
     /* Force Archim to use same USB ID as Mini-Rambo and Rambo when flashed
      * NOTE: While in "erase" (bootloader) mode, the ID will be 03eb:6124
@@ -346,7 +345,7 @@ function make_config(PRINTER, TOOLHEAD) {
     MARLIN["SD_SPI_SPEED"]                               = 'SPI_SIXTEENTH_SPEED'
 
     MARLIN["LCD_TIMEOUT_TO_STATUS"]                      = 600000 // Ten Minutes
-    MARLIN["TOUCH_UI_VERSION"]                           = C_STRING('Version: 1.1 (\" __DATE__  \")');
+    MARLIN["TOUCH_UI_VERSION"]                           = C_STRING('Version: 1.2 (\" __DATE__  \")');
     MARLIN["TOUCH_UI_FTDI_EVE"]                          = true
     MARLIN["TOUCH_UI_COCOA_THEME"]                       = true
     MARLIN["TOUCH_UI_COCOA_PRESS"]                       = true
@@ -389,11 +388,13 @@ function make_config(PRINTER, TOOLHEAD) {
     }
 
     MARLIN["SHOW_CUSTOM_BOOTSCREEN"]                     = true
-    MARLIN["BABYSTEPPING"]                               = false
+    MARLIN["BABYSTEPPING"]                               = true
     MARLIN["BABYSTEP_XY"]                                = false
+    MARLIN["BABYSTEP_WITHOUT_HOMING"]                    = true
+    MARLIN["BABYSTEP_ALWAYS_AVAILABLE"]                  = true
+    MARLIN["BABYSTEP_ZPROBE_OFFSET"]                     = true
 
     if(USE_AUTOLEVELING) {
-      MARLIN["BABYSTEP_ZPROBE_OFFSET"]                   = false
       MARLIN["BABYSTEP_HOTEND_Z_OFFSET"]                 = false
     }
 
