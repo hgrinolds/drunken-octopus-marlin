@@ -347,11 +347,6 @@ bool StatusScreen::onTouchEnd(uint8_t tag) {
       #endif
       break;
     case  8:
-      // Restore the feedrate if it was changed
-      if (mydata.saved_feed_rate != 0) {
-        ExtUI::setFeedrate_mm_s(mydata.saved_feed_rate);
-        mydata.saved_feed_rate = 0;
-      }
       sound.play(twinkle, PLAY_ASYNCHRONOUS);
       if (ExtUI::isPrintingFromMedia())
         ExtUI::resumePrint();
@@ -375,12 +370,8 @@ bool StatusScreen::onTouchEnd(uint8_t tag) {
 }
 
 bool StatusScreen::onTouchHeld(uint8_t tag) {
-  if (tag == 2 && !ExtUI::isMoving()) {
-    float increment;
-    if (mydata.saved_feed_rate == 0)
-      mydata.saved_feed_rate = getFeedrate_mm_s();
-    LoadChocolateScreen::setManualFeedrateAndIncrement(0.25, increment);
-    UI_INCREMENT(AxisPosition_mm, E0);
+  if (tag == 2) {
+    LoadChocolateScreen::glideExtruder(0.16);
   }
   return false;
 }
@@ -427,7 +418,6 @@ void StatusScreen::setStatusMessage(const char * const message) {
 
 void StatusScreen::onEntry() {
   mydata.gotMessage = false;
-  mydata.saved_feed_rate = 0;
   load_background(cocoa_press_ui, sizeof(cocoa_press_ui));
 }
 

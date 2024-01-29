@@ -25,6 +25,8 @@
 #include "../screens.h"
 #include "../screen_data.h"
 
+#include "../../../../module/planner.h"
+
 #ifdef COCOA_LOAD_CHOCOLATE_SCREEN
 
 #include "cocoa_press_ui.h"
@@ -98,11 +100,6 @@ void LoadChocolateScreen::draw_arrows(draw_mode_t what) {
 void LoadChocolateScreen::onEntry() {
   mydata.repeating = false;
   mydata.repeat_tag = 0;
-  mydata.saved_feed_rate = getFeedrate_mm_s();
-}
-
-void LoadChocolateScreen::onExit() {
-  ExtUI::setFeedrate_mm_s(mydata.saved_feed_rate);
 }
 
 void LoadChocolateScreen::onRedraw(draw_mode_t what) {
@@ -134,37 +131,32 @@ bool LoadChocolateScreen::onTouchEnd(uint8_t tag) {
   return true;
 }
 
-void LoadChocolateScreen::setManualFeedrateAndIncrement(float feedrate_mm_s, float &increment_mm) {
-  // Compute increment so feedrate so that the tool lags the adjuster when it is
-  // being held down, this allows enough margin for the planner to
-  // connect segments and even out the motion.
-  ExtUI::setFeedrate_mm_s(feedrate_mm_s);
-  increment_mm = feedrate_mm_s / ((TOUCH_REPEATS_PER_SECOND) * 0.80f);
+// Smoothly move the extruder at feedrate_mm_s, forwards or backwards depending on the sign
+void LoadChocolateScreen::glideExtruder(feedRate_t feedrate_mm_s) {
+  if (planner.movesplanned() < 2) {
+    // Compute increment so feedrate so that the tool lags the adjuster when it is
+    // being held down, this allows enough margin for the planner to
+    // connect segments and even out the motion.
+    const float increment = feedrate_mm_s / ((TOUCH_REPEATS_PER_SECOND) * 0.80f);
+    const feedRate_t saved_fr = getFeedrate_mm_s();
+    ExtUI::setAxisPosition_mm(ExtUI::getAxisPosition_mm(E0) + increment, E0, abs(feedrate_mm_s)); \
+    setFeedrate_mm_s(saved_fr);
+  }
 }
 
 bool LoadChocolateScreen::onTouchHeld(uint8_t tag) {
-  if (ExtUI::isMoving()) return false; // Don't allow moves to accumulate
-  float increment;
-  setManualFeedrateAndIncrement(20, increment);
-  #define UI_INCREMENT_AXIS(axis) UI_INCREMENT(AxisPosition_mm, axis);
-  #define UI_DECREMENT_AXIS(axis) UI_DECREMENT(AxisPosition_mm, axis);
+  const feedRate_t unload_mm_s = 13;
   switch (tag) {
-    case 5: UI_INCREMENT_AXIS(E0); break;
-    case 6: UI_DECREMENT_AXIS(E0); break;
+    case 5: glideExtruder( unload_mm_s); break;
+    case 6: glideExtruder(-unload_mm_s); break;
     default: return false;
   }
-  #undef UI_DECREMENT_AXIS
-  #undef UI_INCREMENT_AXIS
   return false;
 }
 
 void LoadChocolateScreen::onIdle() {
   reset_menu_timeout();
   if (mydata.repeating) onTouchHeld(mydata.repeat_tag);
-  if (refresh_timer.elapsed(STATUS_UPDATE_INTERVAL)) {
-    if (!EventLoop::is_touch_held()) onRefresh();
-    refresh_timer.start();
-  }
   BaseScreen::onIdle();
 }
 

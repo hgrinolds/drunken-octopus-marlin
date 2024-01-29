@@ -29,7 +29,6 @@
 struct LoadChocolateScreenData {
   uint8_t repeat_tag;
   bool repeating;
-  feedRate_t saved_feed_rate;
 };
 
 class LoadChocolateScreen : public BaseScreen, public CachedScreen<LOAD_CHOCOLATE_SCREEN_CACHE> {
@@ -38,9 +37,8 @@ class LoadChocolateScreen : public BaseScreen, public CachedScreen<LOAD_CHOCOLAT
     static void draw_buttons(draw_mode_t what);
     static void draw_text(draw_mode_t what);
   public:
-    static void setManualFeedrateAndIncrement(float feedrate_mm_s, float &increment);
+    static void glideExtruder(feedRate_t feedrate_mm_s);
     static void onEntry();
-    static void onExit();
     static void onIdle();
     static void onRedraw(draw_mode_t);
     static bool onTouchStart(uint8_t tag);

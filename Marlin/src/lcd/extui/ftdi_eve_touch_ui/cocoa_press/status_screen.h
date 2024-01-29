@@ -28,7 +28,6 @@
 
 struct StatusScreenData {
   bool gotMessage;
-  feedRate_t saved_feed_rate;
 };
 
 class StatusScreen : public BaseScreen, public CachedScreen<STATUS_SCREEN_CACHE, STATUS_SCREEN_DL_SIZE> {
