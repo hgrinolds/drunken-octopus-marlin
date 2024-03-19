@@ -1588,7 +1588,7 @@
  *     |    [-]    |
  *     O-- FRONT --+
  */
-#define NOZZLE_TO_PROBE_OFFSET {-40,-15,-1.2} // <-- changed
+#define NOZZLE_TO_PROBE_OFFSET {-40,-15,-0.3} // <-- changed, used Z from BLT calibration with metal shim 0.038mm
 
 // Enable and set to use a specific tool for probing. Disable to allow any tool.
 #define PROBING_TOOL 0
@@ -2120,7 +2120,7 @@
     #define MESH_TEST_NOZZLE_SIZE    0.4  // (mm) Diameter of primary nozzle.
     #define MESH_TEST_LAYER_HEIGHT   0.2  // (mm) Default layer height for G26.
     #define MESH_TEST_HOTEND_TEMP  230    // (°C) Default nozzle temperature for G26.
-    #define MESH_TEST_BED_TEMP      70    // (°C) Default bed temperature for G26.  <--changed for petg hrg
+    #define MESH_TEST_BED_TEMP      80    // (°C) Default bed temperature for G26.  <--changed for petg hrg
     #define G26_XY_FEEDRATE         20    // (mm/s) Feedrate for G26 XY moves.
     #define G26_XY_FEEDRATE_TRAVEL 100    // (mm/s) Feedrate for G26 XY travel moves.
     #define G26_RETRACT_MULTIPLIER   1.0  // G26 Q (retraction) used by default between mesh test elements.
@@ -2409,9 +2409,9 @@
 //
 // Preheat Constants - Up to 10 are supported without changes
 //
-#define PREHEAT_1_LABEL       "PLA"
-#define PREHEAT_1_TEMP_HOTEND 200 // <-- changed
-#define PREHEAT_1_TEMP_BED     70
+#define PREHEAT_1_LABEL       "Petg"
+#define PREHEAT_1_TEMP_HOTEND 230 // <-- changed
+#define PREHEAT_1_TEMP_BED     85
 #define PREHEAT_1_TEMP_CHAMBER 35
 #define PREHEAT_1_FAN_SPEED     0 // Value from 0 to 255
 
@@ -2518,7 +2518,7 @@
   //#define NOZZLE_CLEAN_NO_Y
 
   // Require a minimum hotend temperature for cleaning
-  #define NOZZLE_CLEAN_MIN_TEMP 170
+  #define NOZZLE_CLEAN_MIN_TEMP 180  // changed from 170 by hrg
   //#define NOZZLE_CLEAN_HEATUP       // Heat up the nozzle instead of skipping wipe
 
   // Explicit wipe G-code script applies to a G12 with no arguments.
