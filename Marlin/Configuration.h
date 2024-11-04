@@ -1,9 +1,11 @@
-/**
+/*
  * Marlin 3D Printer Firmware
  * Copyright (c) 2020 MarlinFirmware [https://github.com/MarlinFirmware/Marlin]
  *
  * Based on Sprinter and grbl.
  * Copyright (c) 2011 Camiel Gubbels / Erik van der Zalm
+ * 
+ * ====== NOTE: changes are marked from DO for hardware, marked as hrg for custom settings beyond =======
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -1245,7 +1247,7 @@
  * Override with M92 (when enabled below)
  *                                      X, Y, Z [, I [, J [, K...]]], E0 [, E1[, E2...]]
  */
-#define DEFAULT_AXIS_STEPS_PER_UNIT   {100,100,1600,420} // <-- changed  good for Titan Aero ITWorks
+#define DEFAULT_AXIS_STEPS_PER_UNIT   {100,100,1600,420} // <-- changed   hrg good for Titan Aero ITWorks
 
 /**
  * Enable support for M92. Disable to save at least ~530 bytes of flash.
@@ -1586,7 +1588,7 @@
  *     |    [-]    |
  *     O-- FRONT --+
  */
-#define NOZZLE_TO_PROBE_OFFSET {0,-22,-2.35} // <-- changed
+#define NOZZLE_TO_PROBE_OFFSET {0,-22,-2.35} // <-- changed need to confirm against BLTouch
 
 // Enable and set to use a specific tool for probing. Disable to allow any tool.
 #define PROBING_TOOL 0
@@ -1649,10 +1651,10 @@
  * You may get improved results by probing 2 or more times.
  * With EXTRA_PROBING the more atypical reading(s) will be disregarded.
  *
- * A total of 2 does fast/slow probes with a weighted average.  Both are enabled 2/5/2024
+ * A total of 2 does fast/slow probes with a weighted average.
  * A total of 3 or more adds more slow probes, taking the average.
  */
-#define MULTIPLE_PROBING 2
+#define MULTIPLE_PROBING 3  // hrg changed from 2 
 #define EXTRA_PROBING    1
 
 /**
@@ -1712,10 +1714,10 @@
 #define DELAY_BEFORE_PROBING 200  // (ms) To prevent vibrations from triggering piezo sensors, enabled 2/5/2024
 
 // Require minimum nozzle and/or bed temperature for probing
-#define PREHEAT_BEFORE_PROBING  //enabled 2/5/2024
+//#define PREHEAT_BEFORE_PROBING  // hrg disabled to use pre-heat before level, line 2070
 #if ENABLED(PREHEAT_BEFORE_PROBING)
   #define PROBING_NOZZLE_TEMP 120   // (°C) Only applies to E0 at this time
-  #define PROBING_BED_TEMP     50
+  #define PROBING_BED_TEMP     50   
 #endif
 
 // For Inverting Stepper Enable Pins (Active Low) use 0, Non Inverting (Active High) use 1
@@ -2047,7 +2049,7 @@
 //#define AUTO_BED_LEVELING_3POINT
 //#define AUTO_BED_LEVELING_LINEAR
 //#define AUTO_BED_LEVELING_BILINEAR
-#define AUTO_BED_LEVELING_UBL // <-- changed
+#define AUTO_BED_LEVELING_UBL // <-- changed for BL Touch
 //#define MESH_BED_LEVELING
 
 /**
@@ -2061,16 +2063,16 @@
  * these options to restore the prior leveling state or to always enable
  * leveling immediately after G28.
  */
-#define RESTORE_LEVELING_AFTER_G28 // <-- changed
+#define RESTORE_LEVELING_AFTER_G28 // <-- changed 
 //#define ENABLE_LEVELING_AFTER_G28
 
 /**
- * Auto-leveling needs preheating
+ * Auto-leveling needs preheating , hrg this is used rather than pre-heat before probe
  */
 #define PREHEAT_BEFORE_LEVELING  //enabled 2/5/2024
 #if ENABLED(PREHEAT_BEFORE_LEVELING)
-  #define LEVELING_NOZZLE_TEMP 120   // (°C) Only applies to E0 at this time
-  #define LEVELING_BED_TEMP     50
+  #define LEVELING_NOZZLE_TEMP 170   // (°C) Only applies to E0 at this time -- changed hrg
+  #define LEVELING_BED_TEMP    90 // changed hrg
 #endif
 
 /**
@@ -2093,7 +2095,7 @@
    */
   #define ENABLE_LEVELING_FADE_HEIGHT
   #if ENABLED(ENABLE_LEVELING_FADE_HEIGHT)
-    #define DEFAULT_LEVELING_FADE_HEIGHT 10.0 // (mm) Default fade height.
+    #define DEFAULT_LEVELING_FADE_HEIGHT 0.0 // (mm) Default fade height hrg changed to 0 due to firmware bug
   #endif
 
   /**
@@ -2116,21 +2118,21 @@
   #define G26_MESH_VALIDATION // <-- changed
   #if ENABLED(G26_MESH_VALIDATION)
     #define MESH_TEST_NOZZLE_SIZE    0.4  // (mm) Diameter of primary nozzle.
-    #define MESH_TEST_LAYER_HEIGHT   0.2  // (mm) Default layer height for G26.
-    #define MESH_TEST_HOTEND_TEMP  205    // (°C) Default nozzle temperature for G26.
-    #define MESH_TEST_BED_TEMP      60    // (°C) Default bed temperature for G26.
+    #define MESH_TEST_LAYER_HEIGHT   0.18 // (mm) Default layer height for G26. changed hrg
+    #define MESH_TEST_HOTEND_TEMP  235    // (°C) Default nozzle temperature for G26. for abs hrg
+    #define MESH_TEST_BED_TEMP      110    // (°C) Default bed temperature for G26. for abs hrg
     #define G26_XY_FEEDRATE         20    // (mm/s) Feedrate for G26 XY moves.
     #define G26_XY_FEEDRATE_TRAVEL 100    // (mm/s) Feedrate for G26 XY travel moves.
-    #define G26_RETRACT_MULTIPLIER   1.0  // G26 Q (retraction) used by default between mesh test elements.
+    #define G26_RETRACT_MULTIPLIER   0.5 // G26 Q (retraction) used by default between mesh test elements. hrg for e3D titian aero
   #endif
 
 #endif
-
+// hrg not used
 #if ANY(AUTO_BED_LEVELING_LINEAR, AUTO_BED_LEVELING_BILINEAR)
 
   // Set the number of grid points per dimension.
-  #define GRID_MAX_POINTS_X 5 // <-- changed
-  #define GRID_MAX_POINTS_Y 5 // <-- changed
+  #define GRID_MAX_POINTS_X 5 // <-- changed not used
+  #define GRID_MAX_POINTS_Y 5 // <-- changed not used
 
   // Probe along the Y axis, advancing X after each column
   //#define PROBE_Y_FIRST
@@ -2153,8 +2155,9 @@
 
   #endif
 
+// this is what is used for BL touch -- hrg
 #elif ENABLED(AUTO_BED_LEVELING_UBL)
-
+  
   //===========================================================================
   //========================= Unified Bed Leveling ============================
   //===========================================================================
@@ -2162,8 +2165,8 @@
   //#define MESH_EDIT_GFX_OVERLAY   // Display a graphics overlay while editing the mesh
 
   #define MESH_INSET 15              // <-- changed: Set Mesh bounds as an inset region of the bed
-  #define GRID_MAX_POINTS_X 5      // <-- changed: Don't use more than 15 points per axis, implementation limited.
-  #define GRID_MAX_POINTS_Y 5 // <-- changed
+  #define GRID_MAX_POINTS_X 10      // <-- changed: Don't use more than 15 points per axis, implementation limited. hrg
+  #define GRID_MAX_POINTS_Y 10 // <-- changed hrg from 5
 
   #define UBL_HILBERT_CURVE       // <-- changed: Use Hilbert distribution for less travel when probing multiple points
 
@@ -2196,7 +2199,7 @@
     // only used to compute a linear transformation for the mesh itself.
     #define G29J_MESH_TILT_MARGIN ((CLIP_H) + 1)
   #endif
-
+// hrg not used
 #elif ENABLED(MESH_BED_LEVELING)
 
   //===========================================================================
@@ -2215,8 +2218,7 @@
  * Add a bed leveling sub-menu for ABL or MBL.
  * Include a guided procedure if manual probing is enabled.
  */
-//#define LCD_BED_LEVELING
-
+//#define LCD_BED_LEVELING  //hrg not used
 #if ENABLED(LCD_BED_LEVELING)
   #define MESH_EDIT_Z_STEP  0.025 // (mm) Step size while manually probing Z axis.
   #define LCD_PROBE_Z_RANGE 4     // (mm) Z Range centered on Z_MIN_POS for LCD Z adjustment
@@ -2487,17 +2489,17 @@
   #define NOZZLE_CLEAN_PATTERN_CIRCLE   // Provide 'G12 P2' - a circular cleaning pattern
 
   // Default pattern to use when 'P' is not provided to G12. One of the enabled options above.
-  #define NOZZLE_CLEAN_DEFAULT_PATTERN 0
+  #define NOZZLE_CLEAN_DEFAULT_PATTERN 1  // hrg default to zigzag
 
   #define NOZZLE_CLEAN_STROKES     12   // Default number of pattern repetitions
 
   #if ENABLED(NOZZLE_CLEAN_PATTERN_ZIGZAG)
-    #define NOZZLE_CLEAN_TRIANGLES  3   // Default number of triangles
+    #define NOZZLE_CLEAN_TRIANGLES  4   // Default number of triangles changed hrg from 3
   #endif
 
   // Specify positions for each tool as { { X, Y, Z }, { X, Y, Z } }
   // Dual hotend system may use { {  -20, (Y_BED_SIZE / 2), (Z_MIN_POS + 1) },  {  420, (Y_BED_SIZE / 2), (Z_MIN_POS + 1) }}
-  #define NOZZLE_CLEAN_START_POINT {{-17,95,1}} // <-- changed
+  #define NOZZLE_CLEAN_START_POINT {{-17,100,1}} // <-- changed hrg from 95
   #define NOZZLE_CLEAN_END_POINT   {{-17,25,1}} // <-- changed
 
   #if ENABLED(NOZZLE_CLEAN_PATTERN_CIRCLE)
@@ -2516,7 +2518,7 @@
   //#define NOZZLE_CLEAN_NO_Y
 
   // Require a minimum hotend temperature for cleaning
-  #define NOZZLE_CLEAN_MIN_TEMP 170
+  #define NOZZLE_CLEAN_MIN_TEMP 170 //this is OK for both PetG, ABS, and PLA
   //#define NOZZLE_CLEAN_HEATUP       // Heat up the nozzle instead of skipping wipe
 
   // Explicit wipe G-code script applies to a G12 with no arguments.
