@@ -2121,7 +2121,7 @@
     #define MESH_TEST_LAYER_HEIGHT   0.18 // (mm) Default layer height for G26. changed hrg
     #define MESH_TEST_HOTEND_TEMP  235    // (°C) Default nozzle temperature for G26. for abs hrg
     #define MESH_TEST_BED_TEMP      110    // (°C) Default bed temperature for G26. for abs hrg
-    #define G26_XY_FEEDRATE         20    // (mm/s) Feedrate for G26 XY moves.
+    #define G26_XY_FEEDRATE         15    // (mm/s) Feedrate for G26 XY moves. hrg changed from 20
     #define G26_XY_FEEDRATE_TRAVEL 100    // (mm/s) Feedrate for G26 XY travel moves.
     #define G26_RETRACT_MULTIPLIER   0.5 // G26 Q (retraction) used by default between mesh test elements. hrg for e3D titian aero
   #endif
@@ -2485,7 +2485,7 @@
 
 #if ENABLED(NOZZLE_CLEAN_FEATURE)
   #define NOZZLE_CLEAN_PATTERN_LINE     // Provide 'G12 P0' - a simple linear cleaning pattern
-  define NOZZLE_CLEAN_PATTERN_ZIGZAG   // Provide 'G12 P1' - a zigzag cleaning pattern  enabled 2/5/2024
+  #define NOZZLE_CLEAN_PATTERN_ZIGZAG   // Provide 'G12 P1' - a zigzag cleaning pattern  enabled 2/5/2024
   #define NOZZLE_CLEAN_PATTERN_CIRCLE   // Provide 'G12 P2' - a circular cleaning pattern
 
   // Default pattern to use when 'P' is not provided to G12. One of the enabled options above.
