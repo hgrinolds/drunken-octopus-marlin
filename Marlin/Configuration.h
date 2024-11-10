@@ -129,7 +129,7 @@
 //#define BLUETOOTH
 
 // Name displayed in the LCD "Ready" message and Info menu
-#define CUSTOM_MACHINE_NAME "TAZ 6" // <-- changed
+#define CUSTOM_MACHINE_NAME "TAZ 6 Archim2 BLTouch" // <-- changed
 
 // Printer's unique ID, used by some programs to differentiate between machines.
 // Choose your own or use a service like https://www.uuidgenerator.net/version4
@@ -2071,7 +2071,7 @@
  */
 #define PREHEAT_BEFORE_LEVELING  //enabled 2/5/2024
 #if ENABLED(PREHEAT_BEFORE_LEVELING)
-  #define LEVELING_NOZZLE_TEMP 170   // (°C) Only applies to E0 at this time -- changed hrg
+  #define LEVELING_NOZZLE_TEMP 180   // (°C) Only applies to E0 at this time -- changed hrg
   #define LEVELING_BED_TEMP    90 // changed hrg
 #endif
 
@@ -2119,8 +2119,8 @@
   #if ENABLED(G26_MESH_VALIDATION)
     #define MESH_TEST_NOZZLE_SIZE    0.4  // (mm) Diameter of primary nozzle.
     #define MESH_TEST_LAYER_HEIGHT   0.18 // (mm) Default layer height for G26. changed hrg
-    #define MESH_TEST_HOTEND_TEMP  235    // (°C) Default nozzle temperature for G26. for abs hrg
-    #define MESH_TEST_BED_TEMP      110    // (°C) Default bed temperature for G26. for abs hrg
+    #define MESH_TEST_HOTEND_TEMP  250    // (°C) Default nozzle temperature for G26. for abs hrg
+    #define MESH_TEST_BED_TEMP      90    // (°C) Default bed temperature for G26. for abs hrg
     #define G26_XY_FEEDRATE         15    // (mm/s) Feedrate for G26 XY moves. hrg changed from 20
     #define G26_XY_FEEDRATE_TRAVEL 100    // (mm/s) Feedrate for G26 XY travel moves.
     #define G26_RETRACT_MULTIPLIER   0.5 // G26 Q (retraction) used by default between mesh test elements. hrg for e3D titian aero
