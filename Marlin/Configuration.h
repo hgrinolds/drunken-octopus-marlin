@@ -1654,7 +1654,7 @@
  * A total of 2 does fast/slow probes with a weighted average.
  * A total of 3 or more adds more slow probes, taking the average.
  */
-#define MULTIPLE_PROBING 3  // hrg changed from 2 
+#define MULTIPLE_PROBING 2  // hrg back to 2, slow probes seem to time out
 #define EXTRA_PROBING    1
 
 /**
