@@ -1588,7 +1588,7 @@
  *     |    [-]    |
  *     O-- FRONT --+
  */
-#define NOZZLE_TO_PROBE_OFFSET {0,-22,-2.35} // <-- changed need to confirm against BLTouch
+#define NOZZLE_TO_PROBE_OFFSET {-40,-5,-0.5} // <-- hrg changed for BL Touch mount to Titan Aero
 
 // Enable and set to use a specific tool for probing. Disable to allow any tool.
 #define PROBING_TOOL 0
