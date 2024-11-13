@@ -1654,7 +1654,7 @@
  * A total of 2 does fast/slow probes with a weighted average.
  * A total of 3 or more adds more slow probes, taking the average.
  */
-#define MULTIPLE_PROBING 2  // hrg back to 2, slow probes seem to time out
+#define MULTIPLE_PROBING 3 // hrg from 2
 #define EXTRA_PROBING    1
 
 /**
@@ -2063,7 +2063,7 @@
  * these options to restore the prior leveling state or to always enable
  * leveling immediately after G28.
  */
-#define RESTORE_LEVELING_AFTER_G28 // <-- changed 
+#define RESTORE_LEVELING_AFTER_G28 // <-- changed hrg otherwise use M420 S1 in g-code
 //#define ENABLE_LEVELING_AFTER_G28
 
 /**
@@ -2119,8 +2119,8 @@
   #if ENABLED(G26_MESH_VALIDATION)
     #define MESH_TEST_NOZZLE_SIZE    0.4  // (mm) Diameter of primary nozzle.
     #define MESH_TEST_LAYER_HEIGHT   0.18 // (mm) Default layer height for G26. changed hrg
-    #define MESH_TEST_HOTEND_TEMP  250    // (°C) Default nozzle temperature for G26. for abs hrg
-    #define MESH_TEST_BED_TEMP      90    // (°C) Default bed temperature for G26. for abs hrg
+    #define MESH_TEST_HOTEND_TEMP  245    // (°C) Default nozzle temperature for G26. for abs hrg
+    #define MESH_TEST_BED_TEMP     100    // (°C) Default bed temperature for G26. for abs hrg
     #define G26_XY_FEEDRATE         15    // (mm/s) Feedrate for G26 XY moves. hrg changed from 20
     #define G26_XY_FEEDRATE_TRAVEL 100    // (mm/s) Feedrate for G26 XY travel moves.
     #define G26_RETRACT_MULTIPLIER   0.5 // G26 Q (retraction) used by default between mesh test elements. hrg for e3D titian aero
@@ -2416,8 +2416,8 @@
 #define PREHEAT_1_FAN_SPEED     0 // Value from 0 to 255
 
 #define PREHEAT_2_LABEL       "ABS"
-#define PREHEAT_2_TEMP_HOTEND 240
-#define PREHEAT_2_TEMP_BED    110
+#define PREHEAT_2_TEMP_HOTEND 245
+#define PREHEAT_2_TEMP_BED    100
 #define PREHEAT_2_TEMP_CHAMBER 35
 #define PREHEAT_2_FAN_SPEED     0 // Value from 0 to 255
 
@@ -2489,7 +2489,7 @@
   #define NOZZLE_CLEAN_PATTERN_CIRCLE   // Provide 'G12 P2' - a circular cleaning pattern
 
   // Default pattern to use when 'P' is not provided to G12. One of the enabled options above.
-  #define NOZZLE_CLEAN_DEFAULT_PATTERN 1  // hrg default to zigzag
+  #define NOZZLE_CLEAN_DEFAULT_PATTERN 1  // hrg default to zigzag need to add to starting g-code 
 
   #define NOZZLE_CLEAN_STROKES     12   // Default number of pattern repetitions
 
