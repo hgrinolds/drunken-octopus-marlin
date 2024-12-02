@@ -1957,13 +1957,14 @@
  * RAMPS-based boards use SERVO3_PIN for the first runout sensor.
  * For other boards you may need to define FIL_RUNOUT_PIN, FIL_RUNOUT2_PIN, etc.
  */
-#define FILAMENT_RUNOUT_SENSOR // <-- changed
-#if ENABLED(FILAMENT_RUNOUT_SENSOR)
-  #define FIL_RUNOUT_ENABLED_DEFAULT false // <-- changed: Enable the sensor on startup. Override with M412 followed by M500.
-  #define NUM_RUNOUT_SENSORS   2          // <-- changed: Number of sensors, up to one per extruder. Define a FIL_RUNOUT#_PIN for each.
+/*
+//#define FILAMENT_RUNOUT_SENSOR // <-- changed
+//#if ENABLED(FILAMENT_RUNOUT_SENSOR)
+  //#define FIL_RUNOUT_ENABLED_DEFAULT false // <-- changed: Enable the sensor on startup. Override with M412 followed by M500.
+  //#define NUM_RUNOUT_SENSORS   2          // <-- changed: Number of sensors, up to one per extruder. Define a FIL_RUNOUT#_PIN for each.
 
-  #define FIL_RUNOUT_STATE     LOW        // Pin state indicating that filament is NOT present.
-  #define FIL_RUNOUT_PULLUP               // Use internal pullup for filament runout pins.
+  //#define FIL_RUNOUT_STATE     LOW        // Pin state indicating that filament is NOT present.
+  //#define FIL_RUNOUT_PULLUP               // Use internal pullup for filament runout pins.
   //#define FIL_RUNOUT_PULLDOWN           // Use internal pulldown for filament runout pins.
   //#define WATCH_ALL_RUNOUT_SENSORS      // Execute runout script on any triggering sensor, not only for the active extruder.
                                           // This is automatically enabled for MIXING_EXTRUDERs.
@@ -2004,23 +2005,23 @@
   // Commands to execute on filament runout.
   // With multiple runout sensors use the %c placeholder for the current tool in commands (e.g., "M600 T%c")
   // NOTE: After 'M412 H1' the host handles filament runout and this script does not apply.
-  #define FILAMENT_RUNOUT_SCRIPT "M600"
+  //#define FILAMENT_RUNOUT_SCRIPT "M600 T%c"
 
   // After a runout is detected, continue printing this length of filament
   // before executing the runout script. Useful for a sensor at the end of
   // a feed tube. Requires 4 bytes SRAM per sensor, plus 4 bytes overhead.
-  #define FILAMENT_RUNOUT_DISTANCE_MM 14 // <-- changed
+  //#define FILAMENT_RUNOUT_DISTANCE_MM 14 // <-- changed
 
-  #ifdef FILAMENT_RUNOUT_DISTANCE_MM
+  //#ifdef FILAMENT_RUNOUT_DISTANCE_MM
     // Enable this option to use an encoder disc that toggles the runout pin
     // as the filament moves. (Be sure to set FILAMENT_RUNOUT_DISTANCE_MM
     // large enough to avoid false positives.)
     //#define FILAMENT_MOTION_SENSOR
 
-    #if ENABLED(FILAMENT_MOTION_SENSOR)
+    //#if ENABLED(FILAMENT_MOTION_SENSOR)
       //#define FILAMENT_SWITCH_AND_MOTION
-      #if ENABLED(FILAMENT_SWITCH_AND_MOTION)
-        #define NUM_MOTION_SENSORS   1          // Number of sensors, up to one per extruder. Define a FIL_MOTION#_PIN for each.
+      //#if ENABLED(FILAMENT_SWITCH_AND_MOTION)
+        //#define NUM_MOTION_SENSORS   1          // Number of sensors, up to one per extruder. Define a FIL_MOTION#_PIN for each.
         //#define FIL_MOTION1_PIN    -1
 
         // Override individually if the motion sensors vary
@@ -2055,10 +2056,11 @@
         //#define FIL_MOTION8_STATE LOW
         //#define FIL_MOTION8_PULLUP
         //#define FIL_MOTION8_PULLDOWN
-      #endif
-    #endif // FILAMENT_MOTION_SENSOR
-  #endif // FILAMENT_RUNOUT_DISTANCE_MM
-#endif // FILAMENT_RUNOUT_SENSOR
+      //#endif
+    //#endif // FILAMENT_MOTION_SENSOR
+  //#endif // FILAMENT_RUNOUT_DISTANCE_MM
+//#endif // FILAMENT_RUNOUT_SENSOR
+*/
 
 //===========================================================================
 //=============================== Bed Leveling ==============================
@@ -2177,8 +2179,6 @@
     #define G26_XY_FEEDRATE_TRAVEL 100    // (mm/s) Feedrate for G26 XY travel moves.
     #define G26_RETRACT_MULTIPLIER   0.5  // G26 Q (retraction) used by default between mesh test elements. hrg from 1.0
   #endif
-
-#endif
 
 #if ANY(AUTO_BED_LEVELING_LINEAR, AUTO_BED_LEVELING_BILINEAR)
 
