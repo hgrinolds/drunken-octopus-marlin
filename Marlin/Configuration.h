@@ -17,6 +17,8 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ * 
+ * altered by hrg 11/2024
  *
  */
 #pragma once
@@ -126,7 +128,7 @@
 //#define BLUETOOTH
 
 // Name displayed in the LCD "Ready" message and Info menu
-#define CUSTOM_MACHINE_NAME "TAZ 6" // <-- changed
+#define CUSTOM_MACHINE_NAME "TAZ6 Dual Extruder V3" // <-- changed hrg
 
 // Printer's unique ID, used by some programs to differentiate between machines.
 // Choose your own or use a service like https://www.uuidgenerator.net/version4
@@ -1632,7 +1634,7 @@
  *     |    [-]    |
  *     O-- FRONT --+
  */
-#define NOZZLE_TO_PROBE_OFFSET {0,-22,-2.35} // <-- changed
+#define NOZZLE_TO_PROBE_OFFSET {-35,-27,-2.75} // <-- changed hrg for BLTouch mount
 
 // Enable and set to use a specific tool for probing. Disable to allow any tool.
 #define PROBING_TOOL 0
@@ -2119,10 +2121,10 @@
 /**
  * Auto-leveling needs preheating
  */
-//#define PREHEAT_BEFORE_LEVELING
+#define PREHEAT_BEFORE_LEVELING  //changed hrg
 #if ENABLED(PREHEAT_BEFORE_LEVELING)
   #define LEVELING_NOZZLE_TEMP 120   // (°C) Only applies to E0 at this time
-  #define LEVELING_BED_TEMP     50
+  #define LEVELING_BED_TEMP  85  //hrg
 #endif
 
 /**
@@ -2134,7 +2136,7 @@
 
 #if ANY(MESH_BED_LEVELING, AUTO_BED_LEVELING_UBL, PROBE_MANUALLY)
   // Set a height for the start of manual adjustment
-  #define MANUAL_PROBE_START_Z 0.2  // (mm) Comment out to use the last-measured height
+//  #define MANUAL_PROBE_START_Z 0.2  // (mm) Comment out to use the last-measured height - hrg
 #endif
 
 #if ANY(MESH_BED_LEVELING, AUTO_BED_LEVELING_BILINEAR, AUTO_BED_LEVELING_UBL)
@@ -2143,9 +2145,9 @@
    * at which point movement will be level to the machine's XY plane.
    * The height can be set with M420 Z<height>
    */
-  #define ENABLE_LEVELING_FADE_HEIGHT
-  #if ENABLED(ENABLE_LEVELING_FADE_HEIGHT)
-    #define DEFAULT_LEVELING_FADE_HEIGHT 10.0 // (mm) Default fade height.
+  // #define ENABLE_LEVELING_FADE_HEIGHT
+  // #if ENABLED(ENABLE_LEVELING_FADE_HEIGHT)
+  // #define DEFAULT_LEVELING_FADE_HEIGHT 10.0 // (mm) Default fade height.  does not work
   #endif
 
   /**
@@ -2169,11 +2171,11 @@
   #if ENABLED(G26_MESH_VALIDATION)
     #define MESH_TEST_NOZZLE_SIZE    0.4  // (mm) Diameter of primary nozzle.
     #define MESH_TEST_LAYER_HEIGHT   0.2  // (mm) Default layer height for G26.
-    #define MESH_TEST_HOTEND_TEMP  205    // (°C) Default nozzle temperature for G26.
-    #define MESH_TEST_BED_TEMP      60    // (°C) Default bed temperature for G26.
+    #define MESH_TEST_HOTEND_TEMP  240   // (°C) Default nozzle temperature for G26. hrg-from 205 for ABS
+    #define MESH_TEST_BED_TEMP     100    // (°C) Default bed temperature for G26. hrg-from 60
     #define G26_XY_FEEDRATE         20    // (mm/s) Feedrate for G26 XY moves.
     #define G26_XY_FEEDRATE_TRAVEL 100    // (mm/s) Feedrate for G26 XY travel moves.
-    #define G26_RETRACT_MULTIPLIER   1.0  // G26 Q (retraction) used by default between mesh test elements.
+    #define G26_RETRACT_MULTIPLIER   0.5  // G26 Q (retraction) used by default between mesh test elements. hrg from 1.0
   #endif
 
 #endif
@@ -2213,9 +2215,9 @@
 
   //#define MESH_EDIT_GFX_OVERLAY   // Display a graphics overlay while editing the mesh
 
-  #define MESH_INSET 15              // <-- changed: Set Mesh bounds as an inset region of the bed
-  #define GRID_MAX_POINTS_X 5      // <-- changed: Don't use more than 15 points per axis, implementation limited.
-  #define GRID_MAX_POINTS_Y 5 // <-- changed
+  #define MESH_INSET 10              // <-- changed: Set Mesh bounds as an inset region of the bed hrg-from 15
+  #define GRID_MAX_POINTS_X 10      // <-- changed: Don't use more than 15 points per axis, implementation limited. hrg-from 5
+  #define GRID_MAX_POINTS_Y 10 // <-- changed hrg-from 5
 
   #define UBL_HILBERT_CURVE       // <-- changed: Use Hilbert distribution for less travel when probing multiple points
 
@@ -2462,15 +2464,15 @@
 //
 // Preheat Constants - Up to 10 are supported without changes
 //
-#define PREHEAT_1_LABEL       "PLA"
-#define PREHEAT_1_TEMP_HOTEND 200 // <-- changed
+#define PREHEAT_1_LABEL       "PetG" //changed hrg
+#define PREHEAT_1_TEMP_HOTEND 240 // <-- changed
 #define PREHEAT_1_TEMP_BED     70
 #define PREHEAT_1_TEMP_CHAMBER 35
 #define PREHEAT_1_FAN_SPEED     0 // Value from 0 to 255
 
 #define PREHEAT_2_LABEL       "ABS"
-#define PREHEAT_2_TEMP_HOTEND 240
-#define PREHEAT_2_TEMP_BED    110
+#define PREHEAT_2_TEMP_HOTEND 245
+#define PREHEAT_2_TEMP_BED    100
 #define PREHEAT_2_TEMP_CHAMBER 35
 #define PREHEAT_2_FAN_SPEED     0 // Value from 0 to 255
 
