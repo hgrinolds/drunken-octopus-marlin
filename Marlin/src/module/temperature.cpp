@@ -389,6 +389,10 @@ PGMSTR(str_t_heating_failed, STR_T_HEATING_FAILED);
 
 #endif // HAS_HOTEND
 
+#if ENABLED(AUTOTEMP)
+  autotemp_t Temperature::autotemp;   // Initialized by settings.load
+#endif
+
 #if HAS_TEMP_REDUNDANT
   redundant_info_t Temperature::temp_redundant;
 #endif
@@ -1122,7 +1126,7 @@ void Temperature::factory_reset() {
 
       if (ELAPSED(curr_time_ms, next_test_ms)) {
         if (current_temp >= ambient_temp) {
-          ambient_temp = (ambient_temp + current_temp) / 2.0f;
+          ambient_temp = (ambient_temp + current_temp) * 0.5f;
           break;
         }
         ambient_temp = current_temp;
@@ -1884,7 +1888,7 @@ void Temperature::mintemp_error(const heater_id_t heater_id OPTARG(ERR_INCLUDE_T
       float power = 0.0;
       if (hotend.target != 0 && !is_idling) {
         // Plan power level to get to target temperature in 2 seconds
-        power = (hotend.target - hotend.modeled_block_temp) * mpc.block_heat_capacity / 2.0f;
+        power = (hotend.target - hotend.modeled_block_temp) * mpc.block_heat_capacity * 0.5f;
         power -= (hotend.modeled_ambient_temp - hotend.modeled_block_temp) * ambient_xfer_coeff;
       }
 
@@ -2602,7 +2606,7 @@ void Temperature::task() {
 #if ANY_THERMISTOR_IS(-1)
   // For a 5V input the AD595 returns a value scaled with 10mV per °C. (Minimum input voltage is 5V.)
   static constexpr celsius_float_t temp_ad595(const raw_adc_t raw) {
-    return raw * (float(ADC_VREF_MV) / 10.0f) / float(HAL_ADC_RANGE) / (OVERSAMPLENR)
+    return raw * (float(ADC_VREF_MV) * 0.1f) / float(HAL_ADC_RANGE) / (OVERSAMPLENR)
                * (TEMP_SENSOR_AD595_GAIN) + (TEMP_SENSOR_AD595_OFFSET);
   }
 #endif
@@ -3127,27 +3131,14 @@ void Temperature::init() {
       OUT_WRITE(HEATER_0_PIN, ENABLED(HEATER_0_INVERTING));
     #endif
   #endif
-  #if HAS_HEATER_1
-    OUT_WRITE(HEATER_1_PIN, ENABLED(HEATER_1_INVERTING));
-  #endif
-  #if HAS_HEATER_2
-    OUT_WRITE(HEATER_2_PIN, ENABLED(HEATER_2_INVERTING));
-  #endif
-  #if HAS_HEATER_3
-    OUT_WRITE(HEATER_3_PIN, ENABLED(HEATER_3_INVERTING));
-  #endif
-  #if HAS_HEATER_4
-    OUT_WRITE(HEATER_4_PIN, ENABLED(HEATER_4_INVERTING));
-  #endif
-  #if HAS_HEATER_5
-    OUT_WRITE(HEATER_5_PIN, ENABLED(HEATER_5_INVERTING));
-  #endif
-  #if HAS_HEATER_6
-    OUT_WRITE(HEATER_6_PIN, ENABLED(HEATER_6_INVERTING));
-  #endif
-  #if HAS_HEATER_7
-    OUT_WRITE(HEATER_7_PIN, ENABLED(HEATER_7_INVERTING));
-  #endif
+
+  TERF(HAS_HEATER_1, OUT_WRITE)(HEATER_1_PIN, ENABLED(HEATER_1_INVERTING));
+  TERF(HAS_HEATER_2, OUT_WRITE)(HEATER_2_PIN, ENABLED(HEATER_2_INVERTING));
+  TERF(HAS_HEATER_3, OUT_WRITE)(HEATER_3_PIN, ENABLED(HEATER_3_INVERTING));
+  TERF(HAS_HEATER_4, OUT_WRITE)(HEATER_4_PIN, ENABLED(HEATER_4_INVERTING));
+  TERF(HAS_HEATER_5, OUT_WRITE)(HEATER_5_PIN, ENABLED(HEATER_5_INVERTING));
+  TERF(HAS_HEATER_6, OUT_WRITE)(HEATER_6_PIN, ENABLED(HEATER_6_INVERTING));
+  TERF(HAS_HEATER_7, OUT_WRITE)(HEATER_7_PIN, ENABLED(HEATER_7_INVERTING));
 
   #if HAS_HEATED_BED
     #if ENABLED(PELTIER_BED)
@@ -3169,33 +3160,15 @@ void Temperature::init() {
     OUT_WRITE(COOLER_PIN, ENABLED(COOLER_INVERTING));
   #endif
 
-  #if HAS_FAN0
-    INIT_FAN_PIN(FAN0_PIN);
-  #endif
-  #if HAS_FAN1
-    INIT_FAN_PIN(FAN1_PIN);
-  #endif
-  #if HAS_FAN2
-    INIT_FAN_PIN(FAN2_PIN);
-  #endif
-  #if HAS_FAN3
-    INIT_FAN_PIN(FAN3_PIN);
-  #endif
-  #if HAS_FAN4
-    INIT_FAN_PIN(FAN4_PIN);
-  #endif
-  #if HAS_FAN5
-    INIT_FAN_PIN(FAN5_PIN);
-  #endif
-  #if HAS_FAN6
-    INIT_FAN_PIN(FAN6_PIN);
-  #endif
-  #if HAS_FAN7
-    INIT_FAN_PIN(FAN7_PIN);
-  #endif
-  #if ENABLED(USE_CONTROLLER_FAN)
-    INIT_FAN_PIN(CONTROLLER_FAN_PIN);
-  #endif
+  TERF(HAS_FAN0, INIT_FAN_PIN)(FAN0_PIN);
+  TERF(HAS_FAN1, INIT_FAN_PIN)(FAN1_PIN);
+  TERF(HAS_FAN2, INIT_FAN_PIN)(FAN2_PIN);
+  TERF(HAS_FAN3, INIT_FAN_PIN)(FAN3_PIN);
+  TERF(HAS_FAN4, INIT_FAN_PIN)(FAN4_PIN);
+  TERF(HAS_FAN5, INIT_FAN_PIN)(FAN5_PIN);
+  TERF(HAS_FAN6, INIT_FAN_PIN)(FAN6_PIN);
+  TERF(HAS_FAN7, INIT_FAN_PIN)(FAN7_PIN);
+  TERF(USE_CONTROLLER_FAN, INIT_FAN_PIN)(CONTROLLER_FAN_PIN);
 
   TERN_(HAS_MAXTC_SW_SPI, max_tc_spi.init());
 
@@ -3225,9 +3198,7 @@ void Temperature::init() {
   TERN_(POWER_MONITOR_CURRENT,  hal.adc_enable(POWER_MONITOR_CURRENT_PIN));
   TERN_(POWER_MONITOR_VOLTAGE,  hal.adc_enable(POWER_MONITOR_VOLTAGE_PIN));
 
-  #if HAS_JOY_ADC_EN
-    SET_INPUT_PULLUP(JOY_EN_PIN);
-  #endif
+  TERF(HAS_JOY_ADC_EN, SET_INPUT_PULLUP)(JOY_EN_PIN);
 
   HAL_timer_start(MF_TIMER_TEMP, TEMP_TIMER_FREQUENCY);
   ENABLE_TEMPERATURE_INTERRUPT();
@@ -3552,7 +3523,7 @@ void Temperature::init() {
 void Temperature::disable_all_heaters() {
 
   // Disable autotemp, unpause and reset everything
-  TERN_(AUTOTEMP, planner.autotemp.enabled = false);
+  TERN_(AUTOTEMP, autotemp.enabled = false);
   TERN_(PROBING_HEATERS_OFF, pause_heaters(false));
 
   #if HAS_HOTEND
@@ -3637,7 +3608,7 @@ void Temperature::disable_all_heaters() {
       singlenozzle_temp[old_tool] = temp_hotend[0].target;
       if (singlenozzle_temp[new_tool] && singlenozzle_temp[new_tool] != singlenozzle_temp[old_tool]) {
         setTargetHotend(singlenozzle_temp[new_tool], 0);
-        TERN_(AUTOTEMP, planner.autotemp_update());
+        TERN_(AUTOTEMP, autotemp_update());
         set_heating_message(0);
         (void)wait_for_hotend(0, false);  // Wait for heating or cooling
       }
@@ -4136,18 +4107,12 @@ void Temperature::isr() {
 
       #if HAS_HEATED_BED
         _PWM_MOD(BED, soft_pwm_bed, temp_bed);
-        #if ENABLED(PELTIER_BED)
-          WRITE_PELTIER_DIR(temp_bed.peltier_dir_heating);
-        #endif
+        TERF(PELTIER_BED, WRITE_PELTIER_DIR)(temp_bed.peltier_dir_heating);
       #endif
 
-      #if HAS_HEATED_CHAMBER
-        _PWM_MOD(CHAMBER, soft_pwm_chamber, temp_chamber);
-      #endif
+      TERF(HAS_HEATED_CHAMBER, _PWM_MOD)(CHAMBER, soft_pwm_chamber, temp_chamber);
 
-      #if HAS_COOLER
-        _PWM_MOD(COOLER, soft_pwm_cooler, temp_cooler);
-      #endif
+      TERF(HAS_COOLER, _PWM_MOD)(COOLER, soft_pwm_cooler, temp_cooler);
 
       #if ENABLED(FAN_SOFT_PWM)
 
@@ -4161,30 +4126,14 @@ void Temperature::isr() {
           WRITE_FAN(N, spcf > pwm_mask ? HIGH : LOW);               \
         }while(0)
 
-        #if HAS_FAN0
-          _FAN_PWM(0);
-        #endif
-        #if HAS_FAN1
-          _FAN_PWM(1);
-        #endif
-        #if HAS_FAN2
-          _FAN_PWM(2);
-        #endif
-        #if HAS_FAN3
-          _FAN_PWM(3);
-        #endif
-        #if HAS_FAN4
-          _FAN_PWM(4);
-        #endif
-        #if HAS_FAN5
-          _FAN_PWM(5);
-        #endif
-        #if HAS_FAN6
-          _FAN_PWM(6);
-        #endif
-        #if HAS_FAN7
-          _FAN_PWM(7);
-        #endif
+        TERF(HAS_FAN0, _FAN_PWM)(0);
+        TERF(HAS_FAN1, _FAN_PWM)(1);
+        TERF(HAS_FAN2, _FAN_PWM)(2);
+        TERF(HAS_FAN3, _FAN_PWM)(3);
+        TERF(HAS_FAN4, _FAN_PWM)(4);
+        TERF(HAS_FAN5, _FAN_PWM)(5);
+        TERF(HAS_FAN6, _FAN_PWM)(6);
+        TERF(HAS_FAN7, _FAN_PWM)(7);
       #endif
     }
     else {
@@ -4194,17 +4143,9 @@ void Temperature::isr() {
         REPEAT(HOTENDS, _PWM_LOW_E);
       #endif
 
-      #if HAS_HEATED_BED
-        _PWM_LOW(BED, soft_pwm_bed);
-      #endif
-
-      #if HAS_HEATED_CHAMBER
-        _PWM_LOW(CHAMBER, soft_pwm_chamber);
-      #endif
-
-      #if HAS_COOLER
-        _PWM_LOW(COOLER, soft_pwm_cooler);
-      #endif
+      TERF(HAS_HEATED_BED,     _PWM_LOW)(BED, soft_pwm_bed);
+      TERF(HAS_HEATED_CHAMBER, _PWM_LOW)(CHAMBER, soft_pwm_chamber);
+      TERF(HAS_COOLER,         _PWM_LOW)(COOLER, soft_pwm_cooler);
 
       #if ENABLED(FAN_SOFT_PWM)
         #if HAS_FAN0
@@ -4267,17 +4208,9 @@ void Temperature::isr() {
         REPEAT(HOTENDS, _SLOW_PWM_E);
       #endif
 
-      #if HAS_HEATED_BED
-        _SLOW_PWM(BED, soft_pwm_bed, temp_bed);
-      #endif
-
-      #if HAS_HEATED_CHAMBER
-        _SLOW_PWM(CHAMBER, soft_pwm_chamber, temp_chamber);
-      #endif
-
-      #if HAS_COOLER
-        _SLOW_PWM(COOLER, soft_pwm_cooler, temp_cooler);
-      #endif
+      TERF(HAS_HEATED_BED,     _SLOW_PWM)(BED, soft_pwm_bed, temp_bed);
+      TERF(HAS_HEATED_CHAMBER, _SLOW_PWM)(CHAMBER, soft_pwm_chamber, temp_chamber);
+      TERF(HAS_COOLER,         _SLOW_PWM)(COOLER, soft_pwm_cooler, temp_cooler);
 
     } // slow_pwm_count == 0
 
@@ -4286,17 +4219,9 @@ void Temperature::isr() {
       REPEAT(HOTENDS, _PWM_OFF_E);
     #endif
 
-    #if HAS_HEATED_BED
-      _PWM_OFF(BED, soft_pwm_bed);
-    #endif
-
-    #if HAS_HEATED_CHAMBER
-      _PWM_OFF(CHAMBER, soft_pwm_chamber);
-    #endif
-
-    #if HAS_COOLER
-      _PWM_OFF(COOLER, soft_pwm_cooler, temp_cooler);
-    #endif
+    TERF(HAS_HEATED_BED,     _PWM_OFF)(BED, soft_pwm_bed);
+    TERF(HAS_HEATED_CHAMBER, _PWM_OFF)(CHAMBER, soft_pwm_chamber);
+    TERF(HAS_COOLER,         _PWM_OFF)(COOLER, soft_pwm_cooler, temp_cooler);
 
     #if ENABLED(FAN_SOFT_PWM)
       if (pwm_count_tmp >= 127) {
@@ -4305,30 +4230,14 @@ void Temperature::isr() {
           soft_pwm_count_fan[N] = soft_pwm_amount_fan[N] >> 1;  \
           WRITE_FAN(N, soft_pwm_count_fan[N] > 0 ? HIGH : LOW); \
         }while(0)
-        #if HAS_FAN0
-          _PWM_FAN(0);
-        #endif
-        #if HAS_FAN1
-          _PWM_FAN(1);
-        #endif
-        #if HAS_FAN2
-          _PWM_FAN(2);
-        #endif
-        #if HAS_FAN3
-          _FAN_PWM(3);
-        #endif
-        #if HAS_FAN4
-          _FAN_PWM(4);
-        #endif
-        #if HAS_FAN5
-          _FAN_PWM(5);
-        #endif
-        #if HAS_FAN6
-          _FAN_PWM(6);
-        #endif
-        #if HAS_FAN7
-          _FAN_PWM(7);
-        #endif
+        TERF(HAS_FAN0, _PWM_FAN)(0);
+        TERF(HAS_FAN1, _PWM_FAN)(1);
+        TERF(HAS_FAN2, _PWM_FAN)(2);
+        TERF(HAS_FAN3, _FAN_PWM)(3);
+        TERF(HAS_FAN4, _FAN_PWM)(4);
+        TERF(HAS_FAN5, _FAN_PWM)(5);
+        TERF(HAS_FAN6, _FAN_PWM)(6);
+        TERF(HAS_FAN7, _FAN_PWM)(7);
       }
       #if HAS_FAN0
         if (soft_pwm_count_fan[0] <= pwm_count_tmp) WRITE_FAN(0, LOW);
@@ -4778,7 +4687,7 @@ void Temperature::isr() {
       OPTARG(G26_CLICK_CAN_CANCEL, const bool click_to_cancel/*=false*/)
     ) {
       #if ENABLED(AUTOTEMP)
-        REMEMBER(1, planner.autotemp.enabled, false);
+        REMEMBER(1, autotemp.enabled, false);
       #endif
 
       #if TEMP_RESIDENCY_TIME > 0
@@ -4910,6 +4819,58 @@ void Temperature::isr() {
     #endif
 
   #endif // HAS_TEMP_HOTEND
+
+  #if ENABLED(AUTOTEMP)
+
+    void Temperature::_autotemp_update_from_hotend() {
+      TERN_(AUTOTEMP_PROPORTIONAL, autotemp.update(degTargetHotend(active_extruder)));
+    }
+
+    /**
+     * Called after changing tools to:
+     *  - Reset or re-apply the default proportional autotemp factor.
+     *  - Enable autotemp if the factor is non-zero.
+     */
+    void Temperature::autotemp_update() {
+      _autotemp_update_from_hotend();
+      autotemp.cfg.factor = TERN0(AUTOTEMP_PROPORTIONAL, AUTOTEMP_FACTOR_P);
+      autotemp.enabled = autotemp.cfg.factor != 0;
+    }
+
+    /**
+     * Called by the M104/M109 commands after setting Hotend Temperature
+     */
+    void Temperature::autotemp_M104_M109() {
+      _autotemp_update_from_hotend();
+
+      if (parser.seenval('S')) autotemp.cfg.min = parser.value_celsius();
+      if (parser.seenval('B')) autotemp.cfg.max = parser.value_celsius();
+
+      // When AUTOTEMP_PROPORTIONAL is enabled, F0 disables autotemp.
+      // Normally, leaving off F also disables autotemp.
+      autotemp.cfg.factor = parser.seen('F') ? parser.value_float() : TERN0(AUTOTEMP_PROPORTIONAL, AUTOTEMP_FACTOR_P);
+      autotemp.enabled = autotemp.cfg.factor != 0;
+    }
+
+    /**
+     * Called every so often to adjust the hotend target temperature
+     * based on the extrusion speed, which is calculated from the blocks
+     * currently in the planner.
+     */
+    void Temperature::autotemp_task() {
+      if (!autotemp.enabled) return;
+      if (degTargetHotend(active_extruder) < autotemp.cfg.min - 2) return; // Below the min?
+
+      // Get a highest target proportion greater than zero
+      float high = planner.get_high_e_speed();
+
+      // Calculate a new target, with weighted correction for a drop
+      float t = autotemp.calculate(high);
+
+      _setTargetHotend(t, active_extruder);
+    }
+
+  #endif // AUTOTEMP
 
   #if HAS_HEATED_BED
 

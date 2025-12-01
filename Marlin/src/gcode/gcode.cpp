@@ -107,6 +107,9 @@ relative_t GcodeSuite::axis_relative; // Init in constructor
 #if ENABLED(EXTENSIBLE_UI)
   #include "../lcd/extui/ui_api.h"
 #endif
+#if ENABLED(GCODE_MACROS)
+  char GcodeSuite::macros[GCODE_MACROS_SLOTS][GCODE_MACROS_SLOT_SIZE + 1] = {{ 0 }};
+#endif
 
 void GcodeSuite::report_echo_start(const bool forReplay) { if (!forReplay) SERIAL_ECHO_START(); }
 void GcodeSuite::report_heading(const bool forReplay, FSTR_P const fstr, const bool eol/*=true*/) {
@@ -187,7 +190,7 @@ void GcodeSuite::get_destination_from_command() {
       if (skip_move)
         destination[i] = current_position[i];
       else
-        destination[i] = axis_is_relative(AxisEnum(i)) ? current_position[i] + v : LOGICAL_TO_NATIVE(v, i);
+        destination[i] = axis_is_relative((AxisEnum)i) ? current_position[i] + v : LOGICAL_TO_NATIVE(v, i);
     }
     else
       destination[i] = current_position[i];
@@ -725,7 +728,7 @@ void GcodeSuite::process_parsed_command(bool no_ok/*=false*/) {
         #endif
       #endif
 
-      #if DISABLED(NO_VOLUMETRICS)
+      #if HAS_VOLUMETRIC_EXTRUSION
         case 200: M200(); break;                                  // M200: Set filament diameter, E to cubic units
       #endif
 
@@ -934,6 +937,10 @@ void GcodeSuite::process_parsed_command(bool no_ok/*=false*/) {
         #if ENABLED(FTM_SMOOTHING)
           case 494: M494(); break;                                // M494: Fixed-Time Motion extras
         #endif
+        #if ENABLED(FTM_RESONANCE_TEST)
+          case 495: M495(); break;                                // M495: Resonance test for Input Shaping
+          case 496: M496(); break;                                // M496: Abort resonance test
+        #endif
       #endif
 
       case 500: M500(); break;                                    // M500: Store settings in EEPROM
@@ -1046,7 +1053,7 @@ void GcodeSuite::process_parsed_command(bool no_ok/*=false*/) {
         case 871: M871(); break;                                  // M871: Print/reset/clear first layer temperature offset values
       #endif
 
-      #if ENABLED(LIN_ADVANCE)
+      #if HAS_LIN_ADVANCE_K
         case 900: M900(); break;                                  // M900: Set advance K factor.
       #endif
 
