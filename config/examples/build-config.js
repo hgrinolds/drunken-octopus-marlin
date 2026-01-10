@@ -1528,101 +1528,101 @@ function make_config(PRINTER, TOOLHEAD) {
 
     if (TOOLHEAD_BLOCK == "Budaschnozzle") {
         // Buda 2.0 on 24V
-        MARLIN["DEFAULT_Kp"]                             =  6
-        MARLIN["DEFAULT_Ki"]                             =  .3
-        MARLIN["DEFAULT_Kd"]                             = 125
+        MARLIN["DEFAULT_KP"]                             =  6
+        MARLIN["DEFAULT_KI"]                             =  .3
+        MARLIN["DEFAULT_KD"]                             = 125
     }
     else if (TOOLHEAD_BLOCK == "Moarstruder") {
         // LulzBot MOARstruder (40w)
-        MARLIN["DEFAULT_Kp"]                             =  55.64
-        MARLIN["DEFAULT_Ki"]                             =   6.79
-        MARLIN["DEFAULT_Kd"]                             = 113.94
+        MARLIN["DEFAULT_KP"]                             =  55.64
+        MARLIN["DEFAULT_KI"]                             =   6.79
+        MARLIN["DEFAULT_KD"]                             = 113.94
     }
     else if (TOOLHEAD_BLOCK == "E3D_SOMEstruder_x2") {
         // Side-by-side LulzBot E3D SOMEstruder on Yellowfin Dual
-        MARLIN["DEFAULT_Kp"]                             =  47.45
-        MARLIN["DEFAULT_Ki"]                             =  4.83
-        MARLIN["DEFAULT_Kd"]                             = 116.63
+        MARLIN["DEFAULT_KP"]                             =  47.45
+        MARLIN["DEFAULT_KI"]                             =  4.83
+        MARLIN["DEFAULT_KD"]                             = 116.63
     }
     else if (TOOLHEAD_BLOCK == "AO_Hexagon") {
         // LulzBot AO-Hexagon (30w)
-        MARLIN["DEFAULT_Kp"]                             =  28.79
-        MARLIN["DEFAULT_Ki"]                             =   1.91
-        MARLIN["DEFAULT_Kd"]                             = 108.51
+        MARLIN["DEFAULT_KP"]                             =  28.79
+        MARLIN["DEFAULT_KI"]                             =   1.91
+        MARLIN["DEFAULT_KD"]                             = 108.51
     }
     else if (TOOLHEAD_BLOCK == "E3D_Titan_Aero_V6") {
         // E3D Titan Aero with LulzBot V6 block
-        MARLIN["DEFAULT_Kp"]                             = 21.00
-        MARLIN["DEFAULT_Ki"]                             =  1.78
-        MARLIN["DEFAULT_Kd"]                             = 61.93
+        MARLIN["DEFAULT_KP"]                             = 21.00
+        MARLIN["DEFAULT_KI"]                             =  1.78
+        MARLIN["DEFAULT_KD"]                             = 61.93
     }
     else if (TOOLHEAD_BLOCK == "E3D_Hermera_V6") {
         // E3D Hermera with LulzBot V6 block
-        MARLIN["DEFAULT_Kp"]                             = 22.89
-        MARLIN["DEFAULT_Ki"]                             =  2.55
-        MARLIN["DEFAULT_Kd"]                             = 51.27
+        MARLIN["DEFAULT_KP"]                             = 22.89
+        MARLIN["DEFAULT_KI"]                             =  2.55
+        MARLIN["DEFAULT_KD"]                             = 51.27
     }
     else if (TOOLHEAD_BLOCK == "E3D_Titan_Aero_Volcano") {
         // E3D Titan Aero with Volcano block
-        MARLIN["DEFAULT_Kp"]                             = 37.55
-        MARLIN["DEFAULT_Ki"]                             = 5.39
-        MARLIN["DEFAULT_Kd"]                             = 65.36
+        MARLIN["DEFAULT_KP"]                             = 37.55
+        MARLIN["DEFAULT_KI"]                             = 5.39
+        MARLIN["DEFAULT_KD"]                             = 65.36
     }
     else if (TOOLHEAD_BLOCK == "SliceEngineering_Mosquito") {
         // Slice Engineering Mosquito
-        MARLIN["DEFAULT_Kp"]                             = 37.76
-        MARLIN["DEFAULT_Ki"]                             = 3.49
-        MARLIN["DEFAULT_Kd"]                             = 102.08
+        MARLIN["DEFAULT_KP"]                             = 37.76
+        MARLIN["DEFAULT_KI"]                             = 3.49
+        MARLIN["DEFAULT_KD"]                             = 102.08
     }
     else if (TOOLHEAD_BLOCK == "E3D_V6_30W_Cylinder") {
         // E3D V6 hotend on 1.75 Bowden Cylindrical heatsink w/ 30W heater
-        MARLIN["DEFAULT_Kp"]                             = 18.64
-        MARLIN["DEFAULT_Ki"]                             = 1.22
-        MARLIN["DEFAULT_Kd"]                             = 71.21
+        MARLIN["DEFAULT_KP"]                             = 18.64
+        MARLIN["DEFAULT_KI"]                             = 1.22
+        MARLIN["DEFAULT_KD"]                             = 71.21
     }
 
     // Heated bed variants
 
     if (PRINTER.includes("SynDaver_Level")) {
       // SynDaver Level aluminium bed with 150W tempco heater
-      MARLIN["DEFAULT_bedKp"]                            = 30.05
-      MARLIN["DEFAULT_bedKi"]                            = 2.04
-      MARLIN["DEFAULT_bedKd"]                            = 294.88
+      MARLIN["DEFAULT_BED_KP"]                            = 30.05
+      MARLIN["DEFAULT_BED_KI"]                            = 2.04
+      MARLIN["DEFAULT_BED_KD"]                            = 294.88
     }
 
     // 24V 360W silicone heater from NPH on 3mm borosilicate (TAZ 2.2+)
     else if (PRINTER.includes("Guava_TAZ4")) {
-      MARLIN["DEFAULT_bedKp"]                            = 20
-      MARLIN["DEFAULT_bedKi"]                            = 5
-      MARLIN["DEFAULT_bedKd"]                            = 275
+      MARLIN["DEFAULT_BED_KP"]                            = 20
+      MARLIN["DEFAULT_BED_KI"]                            = 5
+      MARLIN["DEFAULT_BED_KD"]                            = 275
     }
 
     //24V 360W silicone heater from NPH on 3mm borosilicate (TAZ 2.2+)
     else if (TAZ_BED && !USE_TWO_PIECE_BED) {
-      MARLIN["DEFAULT_bedKp"]                            = 162
-      MARLIN["DEFAULT_bedKi"]                            = 17
-      MARLIN["DEFAULT_bedKd"]                            = 378
+      MARLIN["DEFAULT_BED_KP"]                            = 162
+      MARLIN["DEFAULT_BED_KI"]                            = 17
+      MARLIN["DEFAULT_BED_KD"]                            = 378
     }
 
     // Modular two piece bed (Mini 2/TAZ Pro)
     else if (TAZ_BED && USE_TWO_PIECE_BED) {
-      MARLIN["DEFAULT_bedKp"]                            = 286.02
-      MARLIN["DEFAULT_bedKi"]                            = 54.55
-      MARLIN["DEFAULT_bedKd"]                            = 374.90
+      MARLIN["DEFAULT_BED_KP"]                            = 286.02
+      MARLIN["DEFAULT_BED_KI"]                            = 54.55
+      MARLIN["DEFAULT_BED_KD"]                            = 374.90
     }
 
     // 24V 360W silicone heater from NPH on 3mm borosilicate (TAZ 2.2+)
     else if (MINI_BED && !USE_TWO_PIECE_BED) {
-      MARLIN["DEFAULT_bedKp"]                            = 294
-      MARLIN["DEFAULT_bedKi"]                            = 65
-      MARLIN["DEFAULT_bedKd"]                            = 382
+      MARLIN["DEFAULT_BED_KP"]                            = 294
+      MARLIN["DEFAULT_BED_KI"]                            = 65
+      MARLIN["DEFAULT_BED_KD"]                            = 382
     }
 
     // Modular two piece bed (Mini 2+)
     else if (MINI_BED && USE_TWO_PIECE_BED) {
-      MARLIN["DEFAULT_bedKp"]                            = 384.33
-      MARLIN["DEFAULT_bedKi"]                            = 72.17
-      MARLIN["DEFAULT_bedKd"]                            = 511.64
+      MARLIN["DEFAULT_BED_KP"]                            = 384.33
+      MARLIN["DEFAULT_BED_KI"]                            = 72.17
+      MARLIN["DEFAULT_BED_KD"]                            = 511.64
     }
 
 /************************* COOLING FAN CONFIGURATION *************************/
