@@ -34,9 +34,7 @@
  * - Extra features
  *
  * Advanced settings can be found in Configuration_adv.h
- * 
- * changed by hrg 2.85 filament, zig wipe pattern, heated bed level at 70C
- */  
+ */
 #define CONFIGURATION_H_VERSION 02010300
 
 //===========================================================================
@@ -63,7 +61,7 @@
 // @section info
 
 // Author info of this build printed to the host during boot and M115
-#define STRING_CONFIG_H_AUTHOR "(Drunken Octopus Marlin)" // <-- changed: Who made the changes.
+#define STRING_CONFIG_H_AUTHOR "(Drunken Octopus Marlin + hrg)" // <-- changed: Who made the changes.
 //#define CUSTOM_VERSION_FILE Version.h // Path from the root directory (no quotes)
 
 // @section machine
@@ -127,11 +125,11 @@
 //#define BLUETOOTH
 
 // Name displayed in the LCD "Ready" message and Info menu
-#define CUSTOM_MACHINE_NAME "LULZBOT TAZ 6" // <-- changed also by hrg
+#define CUSTOM_MACHINE_NAME "TAZ 6 BLTouch" // <-- changed hrg
 
 // Printer's unique ID, used by some programs to differentiate between machines.
 // Choose your own or use a service like https://www.uuidgenerator.net/version4
-#define MACHINE_UUID "95384a0e-c31e-4c98-b373-f0262fd95fca" // <-- changed, generated new by hrg
+#define MACHINE_UUID "845f003c-aebd-4e53-a6b9-7d0984fde609" // <-- changed
 
 // @section stepper drivers
 
@@ -222,7 +220,7 @@
 #define EXTRUDERS 1
 
 // Generally expected filament diameter (1.75, 2.85, 3.0, ...). Used for Volumetric, Filament Width Sensor, etc.
-#define DEFAULT_NOMINAL_FILAMENT_DIA 2.85 // <-- changed by hrg
+#define DEFAULT_NOMINAL_FILAMENT_DIA 2.85 // <-- changed hrg
 
 // For Cyclops or any "multi-extruder" that shares a single nozzle.
 //#define SINGLENOZZLE
@@ -639,7 +637,7 @@
 // Above this temperature the heater will be switched off.
 // This can protect components from overheating, but NOT from shorts and failures.
 // (Use MINTEMP for thermistor short/failure protection.)
-#define HEATER_0_MAXTEMP 305 // <-- changed
+#define HEATER_0_MAXTEMP 285 // <-- changed hrg from 305
 #define HEATER_1_MAXTEMP 275
 #define HEATER_2_MAXTEMP 275
 #define HEATER_3_MAXTEMP 275
@@ -858,14 +856,14 @@
  * *** IT IS HIGHLY RECOMMENDED TO LEAVE THIS OPTION ENABLED! ***
  */
 #define PREVENT_COLD_EXTRUSION
-#define EXTRUDE_MINTEMP 150 // <-- changed from 120
+#define EXTRUDE_MINTEMP 190 // <-- changed hrg from 120
 
 /**
  * Prevent a single extrusion longer than EXTRUDE_MAXLENGTH.
  * Note: For Bowden Extruders make this large enough to allow load/unload.
  */
 #define PREVENT_LENGTHY_EXTRUDE
-#define EXTRUDE_MAXLENGTH 200
+#define EXTRUDE_MAXLENGTH 100 // <-- changed: hrg Maximum length of a single extrusion from 200mm
 
 //===========================================================================
 //======================== Thermal Runaway Protection =======================
@@ -1017,6 +1015,9 @@
     // Radius around the center where the arm cannot reach
     #define MIDDLE_DEAD_ZONE_R   0  // (mm)
 
+    #define THETA_HOMING_OFFSET  0  // Calculated from Calibration Guide and M360 / M114. See https://www.morgan3dp.com/morgan-calibration-guide/
+    #define PSI_HOMING_OFFSET    0  // Calculated from Calibration Guide and M364 / M114. See https://www.morgan3dp.com/morgan-calibration-guide/
+
   #elif ENABLED(MP_SCARA)
 
     #define SCARA_OFFSET_THETA1  12 // degrees
@@ -1035,19 +1036,23 @@
   #define DEFAULT_SEGMENTS_PER_SECOND 200
 
   // Length of inner and outer support arms. Measure arm lengths precisely.
-  #define TPARA_LINKAGE_1 120     // (mm)
-  #define TPARA_LINKAGE_2 120     // (mm)
+  #define TPARA_LINKAGE_1 120       // (mm)
+  #define TPARA_LINKAGE_2 120       // (mm)
 
-  // TPARA tower offset (position of Tower relative to bed zero position)
-  // This needs to be reasonably accurate as it defines the printbed position in the TPARA space.
-  #define TPARA_OFFSET_X    0     // (mm)
-  #define TPARA_OFFSET_Y    0     // (mm)
-  #define TPARA_OFFSET_Z    0     // (mm)
+  // SCARA tower offset (position of Tower relative to bed zero position)
+  // This needs to be reasonably accurate as it defines the printbed position in the SCARA space.
+  #define TPARA_OFFSET_X    0       // (mm)
+  #define TPARA_OFFSET_Y    0       // (mm)
+  #define TPARA_OFFSET_Z    0       // (mm)
 
   #define FEEDRATE_SCALING        // Convert XY feedrate from mm/s to degrees/s on the fly
 
   // Radius around the center where the arm cannot reach
   #define MIDDLE_DEAD_ZONE_R   0  // (mm)
+
+  // Calculated from Calibration Guide and M360 / M114. See https://www.morgan3dp.com/morgan-calibration-guide/
+  #define THETA_HOMING_OFFSET  0
+  #define PSI_HOMING_OFFSET    0
 #endif
 
 // @section polar
@@ -1176,7 +1181,7 @@
 #define X_MAX_ENDSTOP_HIT_STATE HIGH
 #define Y_MIN_ENDSTOP_HIT_STATE HIGH
 #define Y_MAX_ENDSTOP_HIT_STATE HIGH
-#define Z_MIN_ENDSTOP_HIT_STATE HIGH
+#define Z_MIN_ENDSTOP_HIT_STATE LOW // <-- changed for BLTouch
 #define Z_MAX_ENDSTOP_HIT_STATE HIGH
 #define I_MIN_ENDSTOP_HIT_STATE HIGH
 #define I_MAX_ENDSTOP_HIT_STATE HIGH
@@ -1190,7 +1195,7 @@
 #define V_MAX_ENDSTOP_HIT_STATE HIGH
 #define W_MIN_ENDSTOP_HIT_STATE HIGH
 #define W_MAX_ENDSTOP_HIT_STATE HIGH
-#define Z_MIN_PROBE_ENDSTOP_HIT_STATE HIGH
+#define Z_MIN_PROBE_ENDSTOP_HIT_STATE LOW // <-- changed for BLTouch
 
 // Enable this feature if all enabled endstop pins are interrupt-capable.
 // This will remove the need to poll the interrupt pins, saving many CPU cycles.
@@ -1208,7 +1213,7 @@
  *
  * :[2,3,4,5,6,7]
  */
-#define ENDSTOP_NOISE_THRESHOLD 2 // <-- changed
+#define ENDSTOP_NOISE_THRESHOLD 2 // <-- changed, a 100nF exists
 
 // Check for stuck or disconnected endstops during homing moves.
 //#define DETECT_BROKEN_ENDSTOP
@@ -1238,7 +1243,7 @@
  * Override with M92 (when enabled below)
  *                                      X, Y, Z [, I [, J [, K...]]], E0 [, E1[, E2...]]
  */
-#define DEFAULT_AXIS_STEPS_PER_UNIT   {100,100,1600,420} // <-- changed, ok for Titan Aero
+#define DEFAULT_AXIS_STEPS_PER_UNIT   {80,80,400,415}} // <-- changed hrg reference iworks e3d
 
 /**
  * Enable support for M92. Disable to save at least ~530 bytes of flash.
@@ -1250,7 +1255,7 @@
  * Override with M203
  *                                      X, Y, Z [, I [, J [, K...]]], E0 [, E1[, E2...]]
  */
-#define DEFAULT_MAX_FEEDRATE          {300,300,3,25} // <-- changed
+#define DEFAULT_MAX_FEEDRATE          {300,300,3,45} // <-- changed, use 25mm/sec for more torque
 
 //#define LIMITED_MAX_FR_EDITING        // Limit edit via M203 or LCD to DEFAULT_MAX_FEEDRATE * 2
 #if ENABLED(LIMITED_MAX_FR_EDITING)
@@ -1282,7 +1287,7 @@
  */
 #define DEFAULT_ACCELERATION                  500  // <-- changed: X, Y, Z ... and E acceleration for printing moves
 #define DEFAULT_RETRACT_ACCELERATION          3000  // E acceleration for retracts
-#define DEFAULT_TRAVEL_ACCELERATION           500  // <-- changed: X, Y, Z ... acceleration for travel (non printing) moves
+#define DEFAULT_TRAVEL_ACCELERATION           800  // <-- changed: X, Y, Z ... acceleration for travel (non printing) moves bumped up from 500 hrg
 #if ENABLED(AXIS4_ROTATES)
   #define DEFAULT_ANGULAR_ACCELERATION        3000  // I, J, K acceleration for rotational-only printing moves
   #define DEFAULT_ANGULAR_TRAVEL_ACCELERATION 3000  // I, J, K acceleration for rotational-only travel (non printing) moves
@@ -1301,7 +1306,6 @@
   #define DEFAULT_XJERK 8 // <-- changed
   #define DEFAULT_YJERK 8 // <-- changed
   #define DEFAULT_ZJERK  0.4 // <-- changed
-  #define DEFAULT_EJERK  10 // <-- changed
   //#define DEFAULT_IJERK  0.3
   //#define DEFAULT_JJERK  0.3
   //#define DEFAULT_KJERK  0.3
@@ -1316,6 +1320,8 @@
     #define MAX_JERK_EDIT_VALUES { 20, 20, 0.6, 10 } // ...or, set your own edit limits
   #endif
 #endif
+
+#define DEFAULT_EJERK    10  // <-- changed: May be used by Linear Advance
 
 /**
  * Junction Deviation Factor
@@ -1354,7 +1360,7 @@
  * The probe replaces the Z-MIN endstop and is used for Z homing.
  * (Automatically enables USE_PROBE_FOR_Z_HOMING.)
  */
-#define Z_MIN_PROBE_USES_Z_MIN_ENDSTOP_PIN
+//#define Z_MIN_PROBE_USES_Z_MIN_ENDSTOP_PIN // <-- changed
 
 // Force the use of the probe for Z-axis homing
 //#define USE_PROBE_FOR_Z_HOMING
@@ -1372,7 +1378,7 @@
  *    - Normally-closed (NC) also connect to GND.
  *    - Normally-open (NO) also connect to 5V.
  */
-//#define Z_MIN_PROBE_PIN -1
+#define Z_MIN_PROBE_PIN SERVO0_PIN // <-- changed
 
 /**
  * Probe Type
@@ -1398,14 +1404,14 @@
  * Use the nozzle as the probe, as with a conductive
  * nozzle system or a piezo-electric smart effector.
  */
-//#define NOZZLE_AS_PROBE
+#define NOZZLE_AS_PROBE // <-- changed
 
 /**
  * Z Servo Probe, such as an endstop switch on a rotating arm.
  */
 //#define Z_PROBE_SERVO_NR 0
 #ifdef Z_PROBE_SERVO_NR
-  #define Z_SERVO_ANGLES {10,90}      // <-- changed: Z Servo Deploy and Stow angles
+  //#define Z_SERVO_ANGLES { 70, 0 }      // Z Servo Deploy and Stow angles
   //#define Z_SERVO_MEASURE_ANGLE 45      // Use if the servo must move to a "free" position for measuring after deploy
   //#define Z_SERVO_INTERMEDIATE_STOW     // Stow the probe between points
   //#define Z_SERVO_DEACTIVATE_AFTER_STOW // Deactivate the servo when probe is stowed
@@ -1414,7 +1420,7 @@
 /**
  * The BLTouch probe uses a Hall effect sensor and emulates a servo.
  */
-#define BLTOUCH // <-- changed
+//#define BLTOUCH. <-- why not defined? hrg
 
 /**
  * MagLev V4 probe by MDD
@@ -1455,17 +1461,6 @@
 #if ENABLED(BD_SENSOR)
   //#define BD_SENSOR_PROBE_NO_STOP // Probe bed without stopping at each probe point
 #endif
-
-/**
- * BIQU MicroProbe
- *
- * A lightweight, solenoid-driven probe.
- * For information about this sensor https://github.com/bigtreetech/MicroProbe
- *
- * Also requires: PROBE_ENABLE_DISABLE
- */
-//#define BIQU_MICROPROBE_V1  // Triggers HIGH
-//#define BIQU_MICROPROBE_V2  // Triggers LOW
 
 // A probe that is deployed and stowed with a solenoid pin (SOL1_PIN)
 //#define SOLENOID_PROBE
@@ -1589,7 +1584,7 @@
  *     |    [-]    |
  *     O-- FRONT --+
  */
-#define NOZZLE_TO_PROBE_OFFSET {-58,-16,-1.2} // <-- changed for TAZ6 BLTouch setup hrg
+#define NOZZLE_TO_PROBE_OFFSET {0,0,-1.2} // <-- changed. NEED TO MEASURE THIS. Use M851 to adjust Z offset at runtime
 
 // Enable and set to use a specific tool for probing. Disable to allow any tool.
 #define PROBING_TOOL 0
@@ -1598,17 +1593,17 @@
 #endif
 
 // Most probes should stay away from the edges of the bed, but
-// with NOZZLE_AS_PROBE this can be negative or a wider probing area.
-#define PROBING_MARGIN 15 // <-- changed
+// with NOZZLE_AS_PROBE this can be negative for a wider probing area.
+//#define PROBING_MARGIN 10 // <-- changed
 
 // X and Y axis travel speed (mm/min) between probes
-#define XY_PROBE_FEEDRATE 18000 // <-- changed
+#define XY_PROBE_FEEDRATE 6000 // <-- changed
 
 // Feedrate (mm/min) for the first approach when double-probing (MULTIPLE_PROBING == 2)
-#define Z_PROBE_FEEDRATE_FAST (4*60)
+#define Z_PROBE_FEEDRATE_FAST 480 // <-- changed
 
 // Feedrate (mm/min) for the "accurate" probe of each point
-#define Z_PROBE_FEEDRATE_SLOW 300 // <-- changed
+#define Z_PROBE_FEEDRATE_SLOW 60 // <-- changed
 
 /**
  * Probe Activation Switch
@@ -1655,7 +1650,7 @@
  * A total of 2 does fast/slow probes with a weighted average.
  * A total of 3 or more adds more slow probes, taking the average.
  */
-//#define MULTIPLE_PROBING 2
+#define MULTIPLE_PROBING 3 // <-- changed from 2 to 3. 1=single probe, 2=fast/slow, 3=fast/slow/slow hrg
 //#define EXTRA_PROBING    1
 
 /**
@@ -1672,10 +1667,10 @@
  * Example: `M851 Z-5` with a CLEARANCE of 4  =>  9mm from bed to nozzle.
  *     But: `M851 Z+1` with a CLEARANCE of 2  =>  2mm from bed to nozzle.
  */
-#define Z_CLEARANCE_DEPLOY_PROBE   15 // <-- changed: (mm) Z Clearance for Deploy/Stow
+#define Z_CLEARANCE_DEPLOY_PROBE   5 // <-- changed: (mm) Z Clearance for Deploy/Stow
 #define Z_CLEARANCE_BETWEEN_PROBES  5 // (mm) Z Clearance between probe points
 #define Z_CLEARANCE_MULTI_PROBE     5 // (mm) Z Clearance between multiple probes
-#define Z_PROBE_ERROR_TOLERANCE     3 // (mm) Tolerance for early trigger (<= -probe.offset.z + ZPET)
+#define Z_PROBE_ERROR_TOLERANCE     5 // <-- changed: (mm) Tolerance for early trigger (<= -probe.offset.z + ZPET)
 //#define Z_AFTER_PROBING           5 // (mm) Z position after probing is done
 
 #define Z_PROBE_LOW_POINT          -2 // (mm) Farthest distance below the trigger-point to go before stopping
@@ -1685,8 +1680,8 @@
 //#define PROBE_OFFSET_XMAX  50   // (mm)
 //#define PROBE_OFFSET_YMIN -50   // (mm)
 //#define PROBE_OFFSET_YMAX  50   // (mm)
-//#define PROBE_OFFSET_ZMIN -20   // (mm)
-//#define PROBE_OFFSET_ZMAX  20   // (mm)
+#define PROBE_OFFSET_ZMIN -2   // <-- changed: (mm)
+#define PROBE_OFFSET_ZMAX  5   // <-- changed: (mm)
 
 // Enable the M48 repeatability test to test probe accuracy
 #define Z_MIN_PROBE_REPEATABILITY_TEST // <-- changed
@@ -1711,11 +1706,11 @@
 #endif
 #define PROBING_FANS_OFF          // <-- changed: Turn fans off when probing
 //#define PROBING_ESTEPPERS_OFF     // Turn all extruder steppers off when probing
-//#define PROBING_STEPPERS_OFF      // Turn all steppers off (unless needed to hold position) when probing (including extruders)
+#define PROBING_STEPPERS_OFF      // <-- changed: Turn all steppers off (unless needed to hold position) when probing (including extruders)
 //#define DELAY_BEFORE_PROBING 200  // (ms) To prevent vibrations from triggering piezo sensors
 
 // Require minimum nozzle and/or bed temperature for probing
-#define PREHEAT_BEFORE_PROBING // <-- changed by hrg
+//#define PREHEAT_BEFORE_PROBING  //<-- check in UBL settings
 #if ENABLED(PREHEAT_BEFORE_PROBING)
   #define PROBING_NOZZLE_TEMP 120   // (°C) Only applies to E0 at this time
   #define PROBING_BED_TEMP     50
@@ -1791,7 +1786,7 @@
  */
 //#define Z_IDLE_HEIGHT Z_HOME_POS
 
-#define Z_CLEARANCE_FOR_HOMING  10   // <-- changed: (mm) Minimal Z height before homing (G28) for Z clearance above the bed, clamps, ...
+#define Z_CLEARANCE_FOR_HOMING  5   // <-- changed: (mm) Minimal Z height before homing (G28) for Z clearance above the bed, clamps, ...
                                       // You'll need this much clearance above Z_MAX_POS to avoid grinding.
 
 //#define Z_AFTER_HOMING         10   // (mm) Height to move to after homing (if Z was homed)
@@ -1906,7 +1901,7 @@
  * RAMPS-based boards use SERVO3_PIN for the first runout sensor.
  * For other boards you may need to define FIL_RUNOUT_PIN, FIL_RUNOUT2_PIN, etc.
  */
-//#define FILAMENT_RUNOUT_SENSOR // <-- changed to disable
+#define FILAMENT_RUNOUT_SENSOR // <-- changed
 #if ENABLED(FILAMENT_RUNOUT_SENSOR)
   #define FIL_RUNOUT_ENABLED_DEFAULT false // <-- changed: Enable the sensor on startup. Override with M412 followed by M500.
   #define NUM_RUNOUT_SENSORS   1          // Number of sensors, up to one per extruder. Define a FIL_RUNOUT#_PIN for each.
@@ -2049,8 +2044,8 @@
  */
 //#define AUTO_BED_LEVELING_3POINT
 //#define AUTO_BED_LEVELING_LINEAR
-//#define AUTO_BED_LEVELING_BILINEAR
-#define AUTO_BED_LEVELING_UBL // <-- changed
+//#define AUTO_BED_LEVELING_BILINEAR // <-- changed to UBL
+#define AUTO_BED_LEVELING_UBL //<--hrg
 //#define MESH_BED_LEVELING
 
 /**
@@ -2070,10 +2065,10 @@
 /**
  * Auto-leveling needs preheating
  */
-#define PREHEAT_BEFORE_LEVELING
+#define PREHEAT_BEFORE_LEVELING //<-- changed hrg
 #if ENABLED(PREHEAT_BEFORE_LEVELING)
-  #define LEVELING_NOZZLE_TEMP 120   // (°C) Only applies to E0 at this time
-  #define LEVELING_BED_TEMP     70   // set for most profile temps
+  #define LEVELING_NOZZLE_TEMP 170   // (°C) Only applies to E0 at this time
+  #define LEVELING_BED_TEMP     90
 #endif
 
 /**
@@ -2085,7 +2080,7 @@
 
 #if ANY(MESH_BED_LEVELING, AUTO_BED_LEVELING_UBL, PROBE_MANUALLY)
   // Set a height for the start of manual adjustment
-  #define MANUAL_PROBE_START_Z 0.2  // (mm) Comment out to use the last-measured height
+  //#define MANUAL_PROBE_START_Z 0.2  // (mm) Comment out to use the last-measured height -- out by hrg
 #endif
 
 #if ANY(MESH_BED_LEVELING, AUTO_BED_LEVELING_BILINEAR, AUTO_BED_LEVELING_UBL)
@@ -2096,7 +2091,7 @@
    */
   #define ENABLE_LEVELING_FADE_HEIGHT
   #if ENABLED(ENABLE_LEVELING_FADE_HEIGHT)
-    #define DEFAULT_LEVELING_FADE_HEIGHT 10.0 // (mm) Default fade height.
+    #define DEFAULT_LEVELING_FADE_HEIGHT 20.0 // (mm) Default fade height. changed from 10 by hrg
   #endif
 
   /**
@@ -2120,11 +2115,11 @@
   #if ENABLED(G26_MESH_VALIDATION)
     #define MESH_TEST_NOZZLE_SIZE    0.4  // (mm) Diameter of primary nozzle.
     #define MESH_TEST_LAYER_HEIGHT   0.2  // (mm) Default layer height for G26.
-    #define MESH_TEST_HOTEND_TEMP  205    // (°C) Default nozzle temperature for G26.
-    #define MESH_TEST_BED_TEMP      60    // (°C) Default bed temperature for G26.
+    #define MESH_TEST_HOTEND_TEMP  245    // (°C) Default nozzle temperature for G26.
+    #define MESH_TEST_BED_TEMP      95    // (°C) Default bed temperature for G26.
     #define G26_XY_FEEDRATE         20    // (mm/s) Feedrate for G26 XY moves.
     #define G26_XY_FEEDRATE_TRAVEL 100    // (mm/s) Feedrate for G26 XY travel moves.
-    #define G26_RETRACT_MULTIPLIER   1.0  // G26 Q (retraction) used by default between mesh test elements.
+    #define G26_RETRACT_MULTIPLIER  0.5 // G26 Q (retraction) used by default between mesh test elements. changed from 1.0 to 0.5 by hrg
   #endif
 
 #endif
@@ -2132,8 +2127,8 @@
 #if ANY(AUTO_BED_LEVELING_LINEAR, AUTO_BED_LEVELING_BILINEAR)
 
   // Set the number of grid points per dimension.
-  #define GRID_MAX_POINTS_X 5 // <-- changed
-  #define GRID_MAX_POINTS_Y 5 // <-- changed
+  #define GRID_MAX_POINTS_X 2 // <-- changed
+  #define GRID_MAX_POINTS_Y 2 // <-- changed
 
   // Probe along the Y axis, advancing X after each column
   //#define PROBE_Y_FIRST
@@ -2164,11 +2159,11 @@
 
   //#define MESH_EDIT_GFX_OVERLAY   // Display a graphics overlay while editing the mesh
 
-  #define MESH_INSET 15              // <-- changed: Set Mesh bounds as an inset region of the bed
-  #define GRID_MAX_POINTS_X 5      // <-- changed: Don't use more than 15 points per axis, implementation limited.
-  #define GRID_MAX_POINTS_Y 5 // <-- changed
+  #define MESH_INSET 15             // Set Mesh bounds as an inset region of the bed
+  #define GRID_MAX_POINTS_X 10     // <-- changed: Don't use more than 15 points per axis, implementation limited. from 2 to 10, hrg
+  #define GRID_MAX_POINTS_Y 10 // <-- changed
 
-  #define UBL_HILBERT_CURVE       // <-- changed: Use Hilbert distribution for less travel when probing multiple points
+  //#define UBL_HILBERT_CURVE       // Use Hilbert distribution for less travel when probing multiple points
 
   //#define UBL_TILT_ON_MESH_POINTS         // Use nearest mesh points with G29 J for better Z reference
   //#define UBL_TILT_ON_MESH_POINTS_3POINT  // Use nearest mesh points with G29 J0 (3-point)
@@ -2206,9 +2201,9 @@
   //=================================== Mesh ==================================
   //===========================================================================
 
-  #define MESH_INSET 15          // <-- changed: Set Mesh bounds as an inset region of the bed
-  #define GRID_MAX_POINTS_X 5    // <-- changed: Don't use more than 7 points per axis, implementation limited.
-  #define GRID_MAX_POINTS_Y 5 // <-- changed
+  #define MESH_INSET 15          // Set Mesh bounds as an inset region of the bed
+  #define GRID_MAX_POINTS_X 10    // <-- changed: Don't use more than 7 points per axis, implementation limited.
+  #define GRID_MAX_POINTS_Y 10 // <-- changed
 
   //#define MESH_G28_REST_ORIGIN // After homing all axes ('G28' or 'G28 XYZ') rest Z at Z_MIN_POS
 
@@ -2288,8 +2283,8 @@
 #define Z_SAFE_HOMING // <-- changed
 
 #if ENABLED(Z_SAFE_HOMING)
-  #define Z_SAFE_HOMING_X_POINT X_CENTER  // (mm) X point for Z homing
-  #define Z_SAFE_HOMING_Y_POINT Y_CENTER  // (mm) Y point for Z homing
+  #define Z_SAFE_HOMING_X_POINT -19  // <-- changed: (mm) X point for Z homing
+  #define Z_SAFE_HOMING_Y_POINT 258  // <-- changed: (mm) Y point for Z homing
   //#define Z_SAFE_HOMING_POINT_ABSOLUTE  // Ignore home offsets (M206) for Z homing position
 #endif
 
@@ -2408,18 +2403,18 @@
 // @section temperature
 
 //
-// Preheat Constants - Up to 10 are supported without changes
+// Preheat Constants - Up to 10 are supported without changes. changed by hrg
 //
-#define PREHEAT_1_LABEL       "PETg"
-#define PREHEAT_1_TEMP_HOTEND 230 // <-- changed
-#define PREHEAT_1_TEMP_BED     70
-#define PREHEAT_1_TEMP_CHAMBER  0
+#define PREHEAT_1_LABEL       "PETG"
+#define PREHEAT_1_TEMP_HOTEND 240 // <-- changed
+#define PREHEAT_1_TEMP_BED     95
+#define PREHEAT_1_TEMP_CHAMBER 35
 #define PREHEAT_1_FAN_SPEED     0 // Value from 0 to 255
 
 #define PREHEAT_2_LABEL       "ABS"
-#define PREHEAT_2_TEMP_HOTEND 240
-#define PREHEAT_2_TEMP_BED    110
-#define PREHEAT_2_TEMP_CHAMBER  0
+#define PREHEAT_2_TEMP_HOTEND 245
+#define PREHEAT_2_TEMP_BED    95
+#define PREHEAT_2_TEMP_CHAMBER 35
 #define PREHEAT_2_FAN_SPEED     0 // Value from 0 to 255
 
 // @section motion
@@ -2485,12 +2480,12 @@
 #define NOZZLE_CLEAN_FEATURE // <-- changed
 
 #if ENABLED(NOZZLE_CLEAN_FEATURE)
-  //#define NOZZLE_CLEAN_PATTERN_LINE     // Provide 'G12 P0' - a simple linear cleaning pattern
+  #define NOZZLE_CLEAN_PATTERN_LINE     // Provide 'G12 P0' - a simple linear cleaning pattern
   #define NOZZLE_CLEAN_PATTERN_ZIGZAG   // Provide 'G12 P1' - a zigzag cleaning pattern
-  //#define NOZZLE_CLEAN_PATTERN_CIRCLE   // Provide 'G12 P2' - a circular cleaning pattern
+  #define NOZZLE_CLEAN_PATTERN_CIRCLE   // Provide 'G12 P2' - a circular cleaning pattern
 
   // Default pattern to use when 'P' is not provided to G12. One of the enabled options above.
-  //#define NOZZLE_CLEAN_DEFAULT_PATTERN 0
+  #define NOZZLE_CLEAN_DEFAULT_PATTERN 1  //<--changed from linear hrg
 
   #define NOZZLE_CLEAN_STROKES     12   // Default number of pattern repetitions
 
@@ -2510,7 +2505,7 @@
   #endif
 
   // Move the nozzle to the initial position after cleaning
-  #define NOZZLE_CLEAN_GOBACK
+  //#define NOZZLE_CLEAN_GOBACK // <-- changed
 
   // For a purge/clean station that's always at the gantry height (thus no Z move)
   //#define NOZZLE_CLEAN_NO_Z
@@ -2522,8 +2517,8 @@
   #define NOZZLE_CLEAN_MIN_TEMP 170
   #define NOZZLE_CLEAN_HEATUP       // Heat up the nozzle instead of skipping wipe
 
-  // Explicit wipe G-code script applies to a G12 with no arguments.  disabled
-  //#define WIPE_SEQUENCE_COMMANDS "M117 Hot end heating...\nM104 S170\nG28 O1\nM117 Wiping nozzle\nT0\nG1 X-17 Y25 Z10 F4000\nM109 R170\nG1 Z1\nM114\nG1 X-17 Y25\nG1 X-17 Y95\nG1 X-17 Y25\nG1 X-17 Y95\nG1 X-17 Y25\nG1 X-17 Y95\nG1 X-17 Y25\nG1 X-17 Y95\nG1 X-17 Y25\nG1 X-17 Y95\nG1 X-17 Y25\nG1 X-17 Y95\nG1 Z15\nM400\nM106 S255\nM109 R160\nM107" // <-- changed
+  // Explicit wipe G-code script applies to a G12 with no arguments.
+  #define WIPE_SEQUENCE_COMMANDS "M117 Hot end heating...\nM104 S170\nG28 O1\nM117 Wiping nozzle\nT0\nG1 X-17 Y25 Z10 F4000\nM109 R170\nG1 Z1\nM114\nG1 X-17 Y25\nG1 X-17 Y95\nG1 X-17 Y25\nG1 X-17 Y95\nG1 X-17 Y25\nG1 X-17 Y95\nG1 X-17 Y25\nG1 X-17 Y95\nG1 X-17 Y25\nG1 X-17 Y95\nG1 X-17 Y25\nG1 X-17 Y95\nG1 Z15\nM400\nM106 S255\nG0 X-10 Y-9\nM109 R160\nM107" // <-- changed
 
 #endif
 
@@ -3053,7 +3048,7 @@
 
 //
 // Factory display for Creality CR-10 / CR-7 / Ender-3
-// https://marlinfw.org/docs/hardware/controllers.html#cr10_stockdisplay
+// https://www.aliexpress.com/item/32833148327.html
 //
 // Connect to EXP1 on RAMPS and compatible boards.
 //
@@ -3439,6 +3434,7 @@
   #define BUTTON_DELAY_MENU     250 // (ms) Button repeat delay for menus
 
   //#define DISABLE_ENCODER         // Disable the click encoder, if any
+  //#define TOUCH_IDLE_SLEEP_MINS 5 // (minutes) Display Sleep after a period of inactivity. Set with M255 S.
 
   #define TOUCH_SCREEN_CALIBRATION
 
@@ -3615,7 +3611,7 @@
  * Set this manually if there are extra servos needing manual control.
  * Set to 0 to turn off servo support.
  */
-#define NUM_SERVOS 1 // <-- changed: Note: Servo index starts with 0 for M280-M282 commands
+#define NUM_SERVOS 0 // <-- changed: Note: Servo index starts with 0 for M280-M282 commands
 
 // (ms) Delay before the next move will start, to give the servo time to reach its target angle.
 // 300ms is a good value but you can try less delay.
@@ -3639,14 +3635,14 @@
 //#define M16_MACHINE_NAME
 #define TOOLHEAD_NAME "Aerostruder" // <-- changed
 #define TOOLHEAD_TYPE "Aerostruder" // <-- changed
-#define WIPE_SEQUENCE_COMMANDS "M117 Hot end heating...\nM104 S170\nG28 O1\nM117 Wiping nozzle\nT0\nG1 X-17 Y25 Z10 F4000\nM109 R170\nG1 Z1\nM114\nG1 X-17 Y25\nG1 X-17 Y95\nG1 X-17 Y25\nG1 X-17 Y95\nG1 X-17 Y25\nG1 X-17 Y95\nG1 X-17 Y25\nG1 X-17 Y95\nG1 X-17 Y25\nG1 X-17 Y95\nG1 X-17 Y25\nG1 X-17 Y95\nG1 Z15\nM400\nM106 S255\nM109 R160\nM107" // <-- changed
+#define WIPE_SEQUENCE_COMMANDS "M117 Hot end heating...\nM104 S170\nG28 O1\nM117 Wiping nozzle\nT0\nG1 X-17 Y25 Z10 F4000\nM109 R170\nG1 Z1\nM114\nG1 X-17 Y25\nG1 X-17 Y95\nG1 X-17 Y25\nG1 X-17 Y95\nG1 X-17 Y25\nG1 X-17 Y95\nG1 X-17 Y25\nG1 X-17 Y95\nG1 X-17 Y25\nG1 X-17 Y95\nG1 X-17 Y25\nG1 X-17 Y95\nG1 Z15\nM400\nM106 S255\nG0 X-10 Y-9\nM109 R160\nM107" // <-- changed
 //#define AXIS_LEVELING_COMMANDS
-#define BED_LEVELING_COMMANDS "G28\nG29 P1 X0 Y0\nG29 S1" // <-- changed
+//#define BED_LEVELING_COMMANDS
 //#define MANUAL_BED_LEVELING_COMMANDS
 //#define AO_EXP1_DEPRECATED_PINMAP
 #define DISABLE_DUE_SD_MMC // <-- changed
 //#define ARCHIM2_SPI_FLASH_EEPROM_BACKUP_SIZE
-//#define END_G29_ON_BACK_LEFT_CORNER
+#define END_G29_ON_BACK_LEFT_CORNER // <-- changed
 #define G26_IN_START_GCODE_WORKAROUND // <-- changed
 #define USB_DEVICE_VENDOR_ID 0x27b1 // <-- changed
 #define USB_DEVICE_PRODUCT_ID 0x0001 // <-- changed
@@ -3674,7 +3670,7 @@
 //#define Z2_PRESENCE_CHECK
 //#define USE_ELECTROMAGNETIC_BRAKE
 //#define ELECTROMAGNETIC_BRAKE_PIN
-#define UBL_HILBERT_CURVE // <-- changed
+//#define UBL_HILBERT_CURVE
 #define M997_ARCHIM_BOOTLOADER // <-- changed
 //#define START_PRINT_TIMER_ON_G26
 //#define MOVE_TO_Z_MIN_COMMANDS
